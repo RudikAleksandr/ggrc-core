@@ -52,6 +52,7 @@ export default can.Component.extend({
       });
     },
   },
+
   events: {
     '{viewModel.proposals} change'() {
       this.viewModel.checkTabWarning();
