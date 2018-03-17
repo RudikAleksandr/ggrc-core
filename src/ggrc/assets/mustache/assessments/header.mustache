@@ -207,4 +207,8 @@ Copyright (C) 2018 Google Inc.
             </info-pane-save-status>
         </div>
     </div>
+    {{#is_info_pin}}
+    <info-pin-buttons class="details-wrap" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState"
+                      on-close="@onClose"></info-pin-buttons>
+    {{/is_info_pin}}
 </div>

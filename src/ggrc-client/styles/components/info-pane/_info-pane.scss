@@ -146,6 +146,8 @@
     .pane-header__toolbar {
       display: flex;
       flex-direction: row-reverse;
+      position: relative;
+      left: 151px;
 
       .form-status {
         line-height: 28px;

@@ -6,10 +6,6 @@
 <section class="assessment-module info info-pane{{#is_info_pin}} sticky-info-panel assignable{{/is_info_pin}}">
   <spinner {toggle}="isLoading" class="spinner-wrapper active"></spinner>
   <inline-form-control {instance}="instance" {deferred-save}="deferredSave">
-  {{#is_info_pin}}
-      <info-pin-buttons class="details-wrap" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState"
-                        on-close="@onClose"></info-pin-buttons>
-  {{/is_info_pin}}
     <div class="tier-content">
       {{> '/static/mustache/assessments/header.mustache' }}
       <tab-container
