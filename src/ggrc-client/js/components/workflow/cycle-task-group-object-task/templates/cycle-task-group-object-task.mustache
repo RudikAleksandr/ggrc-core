@@ -200,8 +200,9 @@
 
           <div class="row-fluid wrap-row">
             <div class="span12">
-                {{#instance.cycle_task_entries.length}}
-                  <h6>Task comments ({{instance.cycle_task_entries.length}})</h6>
+              {{#with_mapping_count instance 'cycle_task_entries'}}
+                {{#count}}
+                  <h6>Task comments ({{count}})</h6>
                   <mapping-tree-view
                     parent-instance="instance"
                     mapping="instance.class.info_pane_options.comments.mapping"
@@ -209,11 +210,12 @@
                     tree-view-class="tree-structure new-tree mapped-objects-tree entry-list"
                     class="task-comments">
                   </mapping-tree-view>
-                {{/instance.cycle_task_entries.length}}
-                {{^instance.cycle_task_entries.length}}
+                {{/count}}
+                {{^count}}
                   <h6>Task comments</h6>
                   No comments.
-                {{/instance.cycle_task_entries.length}}
+                {{/count}}
+              {{/with_mapping_count}}
 
               <ul class="add-task-comment">
                 {{^if_equals instance.status 'Verified'}}

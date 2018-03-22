@@ -11,7 +11,7 @@
     word-wrap: break-word;
   }
   &.pane-header__hiden {
-    top: -86px;
+    top: -132px;
   }
   &.pane-header__show {
     box-shadow: 0px 5px 5px -5px rgba(0, 0, 0, 0.5);
@@ -81,10 +81,8 @@
 }
 
 .details-wrap {
-  float: right;
-  margin-left: 10px;
   width: 60px;
-  position: relative;
+  margin-left: 10px;
   z-index: zIndex(info-page-dropdown);
 
   .dropdown-toggle {
@@ -177,6 +175,10 @@
       }
     }
   }
+  .dropdown-menu-pane {
+    top: 100%;
+    right: 0;
+  }
   &.status-wrap {
     float: none;
     clear: both;
@@ -191,6 +193,40 @@
       left: 0;
     }
   }
+}
+
+.details-wrap .dropdown-menu-pane-position {
+  top: 85%;
+}
+
+.tree-action .details-wrap .dropdown-menu {
+  top: 71%;
+  right: 40px;
+}
+
+.details-wrap-position-pane {
+    position: absolute;
+    top: 9px;
+    right: -52px;
+}
+
+.snapshot .details-wrap-position-pane {
+  right: -59px;
+}
+
+people-list-info .details-wrap {
+  position: relative;
+  top: -10px;
+  // left: 92%;
+}
+
+.ggrc_controllers_info_widget .details-wrap {
+  position: relative;
+  top: -48px;
+}
+
+.ggrc_controllers_info_widget assessment-info-pane .details-wrap {
+  top: 0;
 }
 
 .navigation-wrap {

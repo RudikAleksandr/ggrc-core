@@ -3,13 +3,13 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-<div class="details-wrap">
+<div class="details-wrap {{#if is_info_pin}}details-wrap-position-pane{{/if}}">
   <a class="btn btn-3bbps dropdown-toggle" href="#" data-toggle="dropdown">
     <span class="bubble"></span>
     <span class="bubble"></span>
     <span class="bubble"></span>
   </a>
-  <ul class="dropdown-menu three-dots-list" aria-labelledby="drop1" role="menu">
+  <ul class="dropdown-menu dropdown-menu-pane three-dots-list" aria-labelledby="drop1" role="menu">
     <li class="border-bottom">
       <clipboard-link title="Get permalink" notify="true" text="{{get_permalink_for_object instance}}" />
     </li>

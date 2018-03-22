@@ -247,6 +247,8 @@ export default can.Control({
       el.data('scrollTop', 0);
     }
 
+    console.log(header.outerHeight());
+
     if (el.scrollTop() === 0) {
       header.removeClass('pane-header__show');
     } else if (el.scrollTop() > header.outerHeight() && el.scrollTop() > el.data('scrollTop')) {
