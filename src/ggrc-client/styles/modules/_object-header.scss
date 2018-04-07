@@ -210,14 +210,21 @@
     right: -52px;
 }
 
-.snapshot .details-wrap-position-pane {
-  right: -59px;
+.snapshot { 
+  .details-wrap-position-pane {
+    right: -59px;
+    height: 0;
+  }
+
+  .dropdown-menu {
+    top: 58px;
+  }
 }
 
 people-list-info .details-wrap {
+  float: right;
   position: relative;
   top: -10px;
-  // left: 92%;
 }
 
 .ggrc_controllers_info_widget .details-wrap {

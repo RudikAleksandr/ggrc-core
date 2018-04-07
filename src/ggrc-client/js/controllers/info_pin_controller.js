@@ -241,13 +241,11 @@ export default can.Control({
     );
   },
   ' scroll': function (el, ev) {
-    var header = this.element.find('.pane-header');
+    const header = this.element.find('.pane-header');
 
     if (el.data('scrollTop') === undefined) {
       el.data('scrollTop', 0);
     }
-
-    console.log(header.outerHeight());
 
     if (el.scrollTop() === 0) {
       header.removeClass('pane-header__show');
