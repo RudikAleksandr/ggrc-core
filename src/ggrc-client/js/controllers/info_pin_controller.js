@@ -255,6 +255,12 @@ export default can.Control({
       header.addClass('pane-header_visible');
     }
 
+    if (scrollTop > header.outerHeight()) {
+      header.addClass('pane-header_hidden-transition');
+    } else {
+      header.removeClass('pane-header_hidden-transition');
+    }
+
     el.data('scrollTop', scrollTop);    
   },
   '{window} keyup'(el, event) {
