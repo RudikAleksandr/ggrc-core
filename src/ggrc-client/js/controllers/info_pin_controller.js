@@ -242,22 +242,20 @@ export default can.Control({
   },
   ' scroll': function (el, ev) {
     const header = this.element.find('.pane-header');
+    const scrollTop = el.scrollTop();
+    const prevScrollTop = el.data('scrollTop') || 0;
 
-    if (el.data('scrollTop') === undefined) {
-      el.data('scrollTop', 0);
+    if (scrollTop === 0) {
+      header.removeClass('pane-header_visible');
+    } else if (scrollTop > header.outerHeight() && scrollTop > prevScrollTop) {
+      header.removeClass('pane-header_visible');
+      header.addClass('pane-header_hidden');
+    } else if (scrollTop < prevScrollTop) {
+      header.removeClass('pane-header_hidden');
+      header.addClass('pane-header_visible');
     }
 
-    if (el.scrollTop() === 0) {
-      header.removeClass('pane-header__show');
-    } else if (el.scrollTop() > header.outerHeight() && el.scrollTop() > el.data('scrollTop')) {
-      header.removeClass('pane-header__show');
-      header.addClass('pane-header__hiden');
-    } else if (el.scrollTop() < el.data('scrollTop')) {
-      header.removeClass('pane-header__hiden');
-      header.addClass('pane-header__show');
-    }
-
-    el.data('scrollTop', el.scrollTop());    
+    el.data('scrollTop', scrollTop);    
   },
   '{window} keyup'(el, event) {
     const ESCAPE_KEY_CODE = 27;
