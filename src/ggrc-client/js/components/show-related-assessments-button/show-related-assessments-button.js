@@ -19,7 +19,7 @@ import {hasRelatedAssessments} from '../../plugins/utils/models-utils';
           type: String,
           get: function () {
             return !this.attr('resetStyles') ?
-              'btn btn-lightBlue ' + this.attr('extraBtnCSS') : '';
+              'btn btn-lightBlue btn-position ' + this.attr('extraBtnCSS') : '';
           },
         },
         resetStyles: {

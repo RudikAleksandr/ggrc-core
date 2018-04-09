@@ -57,5 +57,11 @@
       {{/if}}
       {{/if}}
     </div>
+
+    {{#is_info_pin}}
+      <info-pin-buttons class="details-wrap details-wrap-position-pane" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
+    {{/is_info_pin}}
+
+    {{> /static/mustache/base_objects/info-pane-utility.mustache}}
   </div>
 {{/instance}}

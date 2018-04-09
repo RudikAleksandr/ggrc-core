@@ -13,13 +13,13 @@
    {{#if_helpers '\
      ^if' instance.archived '\
      or #if_equals' instance.type 'AssessmentTemplate'}}
-        <div class="details-wrap">
+        <div class="details-wrap {{#if is_info_pin}}details-wrap-position-pane{{/if}}">
           <a class="btn btn-3bbps dropdown-toggle" href="#" data-toggle="dropdown">
             <span class="bubble"></span>
             <span class="bubble"></span>
             <span class="bubble"></span>
           </a>
-          <ul class="dropdown-menu three-dots-list" aria-labelledby="drop1" role="menu">
+          <ul class="dropdown-menu three-dots-list dropdown-menu-pane" aria-labelledby="drop1" role="menu">
             {{#is_allowed 'update' instance context='for'}}
               {{#if instance.is_snapshotable}}
                 <li>

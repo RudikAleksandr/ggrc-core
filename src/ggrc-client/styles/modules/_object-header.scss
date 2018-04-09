@@ -175,6 +175,10 @@
       }
     }
   }
+  .dropdown-menu-pane {
+    top: 100%;
+    right: 0;
+  }
   &.status-wrap {
     float: none;
     clear: both;
@@ -189,6 +193,47 @@
       left: 0;
     }
   }
+}
+
+.details-wrap .dropdown-menu-pane-position {
+  top: 85%;
+}
+
+.tree-action .details-wrap .dropdown-menu {
+  top: 71%;
+  right: 40px;
+}
+
+.details-wrap-position-pane {
+    position: absolute;
+    top: 9px;
+    right: -52px;
+}
+
+.snapshot { 
+  .details-wrap-position-pane {
+    right: -59px;
+    height: 0;
+  }
+
+  .dropdown-menu {
+    top: 58px;
+  }
+}
+
+people-list-info .details-wrap {
+  float: right;
+  position: relative;
+  top: -10px;
+}
+
+.ggrc_controllers_info_widget .details-wrap {
+  position: relative;
+  top: -48px;
+}
+
+.ggrc_controllers_info_widget assessment-info-pane .details-wrap {
+  top: 0;
 }
 
 .navigation-wrap {

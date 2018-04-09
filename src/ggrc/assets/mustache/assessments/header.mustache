@@ -61,7 +61,7 @@ Copyright (C) 2018 Google Inc.
                     <span class="bubble"></span>
                     <span class="bubble"></span>
                 </a>
-                <ul class="dropdown-menu three-dots-list" aria-labelledby="drop1" role="menu">
+                <ul class="dropdown-menu dropdown-menu-pane {{#if is_info_pin}}dropdown-menu-pane-position{{/if}} three-dots-list" aria-labelledby="drop1" role="menu">
                     {{#is_allowed 'update' instance context='for'}}
                         {{^if instance.archived}}
                         {{> '/static/mustache/base_objects/edit_object_link.mustache'}}
@@ -207,4 +207,8 @@ Copyright (C) 2018 Google Inc.
             </info-pane-save-status>
         </div>
     </div>
+    {{#is_info_pin}}
+    <info-pin-buttons class="details-wrap {{#if is_info_pin}}details-wrap-position-pane{{/if}}" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState"
+                      on-close="@onClose"></info-pin-buttons>
+    {{/is_info_pin}}
 </div>

@@ -15,13 +15,13 @@
        or #system_role' 'Superuser' '\
        or #is_allowed' 'update' instance '\
        ' _4_context='for'}}
-    <div class="details-wrap">
+    <div class="details-wrap {{#if is_info_pin}}details-wrap-position-pane{{/if}}">
       <a class="btn btn-3bbps dropdown-toggle" href="#" data-toggle="dropdown">
         <span class="bubble"></span>
         <span class="bubble"></span>
         <span class="bubble"></span>
       </a>
-      <ul class="dropdown-menu three-dots-list" aria-labelledby="drop1" role="menu">
+      <ul class="dropdown-menu dropdown-menu-pane three-dots-list" aria-labelledby="drop1" role="menu">
         {{^if instance.archived}}
           {{#is_allowed 'update' instance context='for'}}
             {{#if instance.is_snapshotable}}

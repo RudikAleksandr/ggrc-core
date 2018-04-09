@@ -108,14 +108,16 @@
     }
   }
   info-pin-buttons {
-    position: fixed;
-    right: 47px;
-    width: 100px;
-    z-index: zIndex(info-pin-buttons);
+    top: -23px;
+    right: -5px;
 
-    &.details-wrap {
+    &.info-pin-buttons {
       margin-top: -8px;
     }
+  }
+
+  .snapshot info-pin-buttons {
+    right: 20px;
   }
 }
 
@@ -126,11 +128,15 @@
   z-index: zIndex(info-page-dropdown);
 
   .sticky-info-panel & {
-    position: fixed;
+    position: absolute;
+    top: 0;
     right: 47px;
     z-index: zIndex(info-pane-utility);
-    margin-top: 24px;
   }
+  .sticky-info-panel .snapshot & {
+    right: 79px;
+  }
+
   .assignable & {
     position: static;
     margin-top: 0;
