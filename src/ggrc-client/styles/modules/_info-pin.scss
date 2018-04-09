@@ -17,7 +17,7 @@
   opacity: 1;
 
   &--maximized {
-    height: 75%;
+    height: calc(100% - 40px);
   }
 
   &--minimized {

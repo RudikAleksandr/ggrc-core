@@ -230,10 +230,29 @@ export default can.Control({
     );
   },
   ' scroll': function (el, ev) {
-    var header = this.element.find('.pane-header');
-    var isFixed = el.scrollTop() > 0;
+    const header = this.element.find('.pane-header');
+    const scrollTop = el.scrollTop();
+    const prevScrollTop = el.data('scrollTop') || 0;
+    const headerOuterHeight = header.outerHeight();
 
-    header.toggleClass('pane-header__fixed', isFixed);
+    if (scrollTop === 0) {
+      header.removeClass('pane-header_visible');
+    } else
+    if (scrollTop > header.outerHeight()) {
+      if (scrollTop > prevScrollTop) {
+        //scroll down
+        if (header.hasClass('pane-header_visible')) {
+          header.removeClass('pane-header_visible');
+          header.addClass('pane-header_hidden');
+        }
+      } else if (scrollTop < prevScrollTop) {
+        //scroll top
+        header.removeClass('pane-header_hidden');
+        header.addClass('pane-header_visible');
+      }
+    }
+
+    el.data('scrollTop', scrollTop);
   },
   '{window} keyup'(el, event) {
     const ESCAPE_KEY_CODE = 27;
