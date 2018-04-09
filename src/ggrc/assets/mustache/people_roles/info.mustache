@@ -5,31 +5,6 @@
 
 <section class="info{{#is_info_pin}} sticky-info-panel{{/is_info_pin}}">
 
-  {{#is_info_pin}}
-    <info-pin-buttons class="details-wrap" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
-  {{/is_info_pin}}
-
-  <div class="info-pane-utility">
-    <div class="details-wrap">
-      <a class="btn btn-3bbps dropdown-toggle" href="#" data-toggle="dropdown">
-        <span class="bubble"></span>
-        <span class="bubble"></span>
-        <span class="bubble"></span>
-      </a>
-      <ul class="dropdown-menu three-dots-list" aria-labelledby="drop1" role="menu">
-        <li class="border-bottom">
-          <clipboard-link title="Get permalink" notify="true" text="{{get_permalink_for_object instance}}" />
-        </li>
-        <li>
-          <a href="/people/{{instance.id}}" target="_blank">
-            <i class="fa fa-long-arrow-right"></i>
-            Open Profile Page
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-
   <div class="tier-content">
     <div class="pane-header">
       <div class="row-fluid wrap-row">
@@ -54,6 +29,33 @@
             </div>
           {{/instance.email}}
         {{/if_match}}
+
+        <div class="span3 pane-header__toolbar">
+          {{#is_info_pin}}
+              <info-pin-buttons maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
+          {{/is_info_pin}}
+
+          <div class="info-pane-utility">
+            <div class="details-wrap">
+              <a class="btn btn-3bbps dropdown-toggle" href="#" data-toggle="dropdown">
+                <span class="bubble"></span>
+                <span class="bubble"></span>
+                <span class="bubble"></span>
+              </a>
+              <ul class="dropdown-menu three-dots-list" aria-labelledby="drop1" role="menu">
+                <li class="border-bottom">
+                  <clipboard-link title="Get permalink" notify="true" text="{{get_permalink_for_object instance}}" />
+                </li>
+                <li>
+                  <a href="/people/{{instance.id}}" target="_blank">
+                    <i class="fa fa-long-arrow-right"></i>
+                    Open Profile Page
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 

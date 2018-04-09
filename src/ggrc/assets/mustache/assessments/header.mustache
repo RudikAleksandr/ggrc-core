@@ -53,90 +53,106 @@ Copyright (C) 2018 Google Inc.
             </inline-edit-control>
         </div>
     </div>
-    <div class="pane-header__toolbar">
-        <div class="{{#if is_info_pin}}pane-header__toolbar-item{{/if}}">
-            <div class="details-wrap">
-                <a class="btn btn-3bbps dropdown-toggle" href="#" data-toggle="dropdown">
-                    <span class="bubble"></span>
-                    <span class="bubble"></span>
-                    <span class="bubble"></span>
-                </a>
-                <ul class="dropdown-menu three-dots-list" aria-labelledby="drop1" role="menu">
-                    {{#is_allowed 'update' instance context='for'}}
-                        {{^if instance.archived}}
-                        {{> '/static/mustache/base_objects/edit_object_link.mustache'}}
-                        {{/if}}
-                    {{/is_allowed}}
-                    <li>
-                        <clipboard-link title="Get permalink" notify="true"
-                                        text="{{get_permalink_for_object instance}}"/>
-                    </li>
+    <div>
+        <div class="pane-header__toolbar">
+          {{#is_info_pin}}
+            <info-pin-buttons maximized="maximized" on-change-maximized-state="@onChangeMaximizedState"
+                    on-close="@onClose"></info-pin-buttons>
+          {{/is_info_pin}}
+          <div class="info-pane-utility">
+            <div>
+                <div class="details-wrap">
+                    <a class="btn btn-3bbps dropdown-toggle" href="#" data-toggle="dropdown">
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                    </a>
+                    <ul class="dropdown-menu three-dots-list" aria-labelledby="drop1" role="menu">
+                        {{#is_allowed 'update' instance context='for'}}
+                            {{^if instance.archived}}
+                            {{> '/static/mustache/base_objects/edit_object_link.mustache'}}
+                            {{/if}}
+                        {{/is_allowed}}
+                        <li>
+                            <clipboard-link title="Get permalink" notify="true"
+                                            text="{{get_permalink_for_object instance}}"/>
+                        </li>
 
-                    {{#is_info_pin}}
-                    <issue-unmap-dropdown-item
-                        {page_instance}="page_instance"
-                        {instance}="instance">
-                    </issue-unmap-dropdown-item>
-                    {{#if instance.viewLink}}
-                        {{#is_allowed "view_object_page" instance}}
+                        {{#is_info_pin}}
+                        <issue-unmap-dropdown-item
+                            {page_instance}="page_instance"
+                            {instance}="instance">
+                        </issue-unmap-dropdown-item>
+                        {{#if instance.viewLink}}
+                            {{#is_allowed "view_object_page" instance}}
+                                <li>
+                                    <a href="{{instance.viewLink}}">
+                                        <i class="fa fa-long-arrow-right"></i>
+                                        Open {{instance.class.title_singular}}
+                                    </a>
+                                </li>
+                            {{/is_allowed}}
+                        {{/if}}
+                        {{/is_info_pin}}
+
+                        {{#if_in instance.status "Not Started,In Progress"}}
+                        {{#is_allowed 'update' instance context='for'}}
                             <li>
-                                <a href="{{instance.viewLink}}">
-                                    <i class="fa fa-long-arrow-right"></i>
-                                    Open {{instance.class.title_singular}}
-                                </a>
+                                {{#unless instance._disabled}}
+                                {{#unless instance.archived}}
+                                    {{#if verifiers.length}}
+                                        <reminder
+                                                {instance}="instance"
+                                                {type}="statusToPerson"
+                                                modal_title="Reminder for Assignees set"
+                                                modal_description="Tomorrow all Assignees will receive a notification to look at this Assessment if they didn't move it to 'Finished' in between."
+                                        >
+                                            <a href="javascript://" ($click)="reminder">
+                                                <i class="fa fa-bell-o"></i>
+                                                Send reminder to assignees</a>
+                                        </reminder>
+                                    {{else}}
+                                        <reminder
+                                                {instance}="instance"
+                                                {type}="statusToPerson"
+                                                modal_title="Reminder for Assignees set"
+                                                modal_description="Tomorrow all Assignees will receive a notification to look at this Assessment if they didn't move it to 'Final' in between."
+                                        >
+                                            <a href="javascript://" ($click)="reminder">
+                                                <i class="fa fa-bell-o"></i>
+                                                Send reminder to assignees</a>
+                                        </reminder>
+                                    {{/if}}
+                                {{/unless}}
+                                {{/unless}}
                             </li>
                         {{/is_allowed}}
-                    {{/if}}
-                    {{/is_info_pin}}
+                        {{/if_in}}
 
-                    {{#if_in instance.status "Not Started,In Progress"}}
-                    {{#is_allowed 'update' instance context='for'}}
-                        <li>
-                            {{#unless instance._disabled}}
-                            {{#unless instance.archived}}
-                                {{#if verifiers.length}}
-                                    <reminder
-                                            {instance}="instance"
-                                            {type}="statusToPerson"
-                                            modal_title="Reminder for Assignees set"
-                                            modal_description="Tomorrow all Assignees will receive a notification to look at this Assessment if they didn't move it to 'Finished' in between."
-                                    >
-                                        <a href="javascript://" ($click)="reminder">
-                                            <i class="fa fa-bell-o"></i>
-                                            Send reminder to assignees</a>
-                                    </reminder>
-                                {{else}}
-                                    <reminder
-                                            {instance}="instance"
-                                            {type}="statusToPerson"
-                                            modal_title="Reminder for Assignees set"
-                                            modal_description="Tomorrow all Assignees will receive a notification to look at this Assessment if they didn't move it to 'Final' in between."
-                                    >
-                                        <a href="javascript://" ($click)="reminder">
-                                            <i class="fa fa-bell-o"></i>
-                                            Send reminder to assignees</a>
-                                    </reminder>
-                                {{/if}}
-                            {{/unless}}
-                            {{/unless}}
-                        </li>
-                    {{/is_allowed}}
-                    {{/if_in}}
-
-                    {{#is_allowed 'update' instance context='for'}}
-                        {{^if instance.archived}}
-                            <li>
-                                {{^if_equals instance.status 'Rework Needed'}}
-                                    {{#if_equals instance.status 'Deprecated'}}
-                                        {{! Set default state }}
-                                        <object-change-state
-                                            {to-state}="initialState"
-                                            (on-state-change)="onStateChange(%event)"
-                                        >
-                                            <a href="#">
-                                                <i class="fa fa-reply"></i> Restore
-                                            </a>
-                                        </object-change-state>
+                        {{#is_allowed 'update' instance context='for'}}
+                            {{^if instance.archived}}
+                                <li>
+                                    {{^if_equals instance.status 'Rework Needed'}}
+                                        {{#if_equals instance.status 'Deprecated'}}
+                                            {{! Set default state }}
+                                            <object-change-state
+                                                {to-state}="initialState"
+                                                (on-state-change)="onStateChange(%event)"
+                                            >
+                                                <a href="#">
+                                                    <i class="fa fa-reply"></i> Restore
+                                                </a>
+                                            </object-change-state>
+                                        {{else}}
+                                            <object-change-state
+                                                {to-state}="deprecatedState"
+                                                (on-state-change)="onStateChange(%event)"
+                                            >
+                                                <a href="#">
+                                                    <i class="fa fa-times-circle"></i> Deprecate
+                                                </a>
+                                            </object-change-state>
+                                        {{/if_equals}}
                                     {{else}}
                                         <object-change-state
                                             {to-state}="deprecatedState"
@@ -147,64 +163,56 @@ Copyright (C) 2018 Google Inc.
                                             </a>
                                         </object-change-state>
                                     {{/if_equals}}
-                                {{else}}
-                                    <object-change-state
-                                        {to-state}="deprecatedState"
-                                        (on-state-change)="onStateChange(%event)"
-                                    >
-                                        <a href="#">
-                                            <i class="fa fa-times-circle"></i> Deprecate
-                                        </a>
-                                    </object-change-state>
-                                {{/if_equals}}
+                                </li>
+                            {{/if}}
+                        {{/is_allowed}}
+
+                        {{#is_allowed 'delete' instance}}
+                            {{^if instance.archived}}
+                            <li>
+                                <a data-toggle="modal-ajax-deleteform" data-object-plural="{{model.table_plural}}"
+                                    data-object-singular="{{model.model_singular}}" data-modal-reset="reset"
+                                    data-modal-class="modal" data-object-id="{{instance.id}}" href="javascript://">
+                                    <i class="fa fa-trash"></i>
+                                    Delete
+                                </a>
                             </li>
-                        {{/if}}
-                    {{/is_allowed}}
-
-                    {{#is_allowed 'delete' instance}}
-                        {{^if instance.archived}}
-                        <li>
-                            <a data-toggle="modal-ajax-deleteform" data-object-plural="{{model.table_plural}}"
-                                data-object-singular="{{model.model_singular}}" data-modal-reset="reset"
-                                data-modal-class="modal" data-object-id="{{instance.id}}" href="javascript://">
-                                <i class="fa fa-trash"></i>
-                                Delete
-                            </a>
-                        </li>
-                        {{/if}}
-                    {{/is_allowed}}
-                </ul>
-            </div>
-        </div>
-
-        {{#is_info_pin}}
-            {{#unless options.isSubTreeItem}}
-                <div class="pane-header__toolbar-item">
-                    <prev-next-buttons {(current-index)}="options.selectedItem"
-                                       {(total-count)}="options.pageInfo.total"
-                    is-subtree-item="isSubTreeItem">
-                    </prev-next-buttons>
+                            {{/if}}
+                        {{/is_allowed}}
+                    </ul>
                 </div>
-            {{/unless}}
-        {{/is_info_pin}}
+            </div>
 
-        {{#unless isEditDenied}}
-                <object-state-toolbar {{#if is_info_pin}}class="pane-header__toolbar-item"{{/if}}
-                                    {verifiers}="verifiers"
-                                    {instance}="instance"
-                                    {disabled}="isPending"
-                                    (on-state-change)="onStateChange(%event)">
-                </object-state-toolbar>
-        {{/unless}}
-        <div class="form-status {{#if is_info_pin}}pane-header__toolbar-item{{/if}}">
-            <info-pane-save-status {info-pane-saving}="isInfoPaneSaving">
-                <loading-status
-                    class="loading-status"
-                    {is-loading}="infoPaneSaving"
-                    loading-text="Saving..."
-                    show-Spinner="true">
-                </loading-status>
-            </info-pane-save-status>
+            {{#is_info_pin}}
+                {{#unless options.isSubTreeItem}}
+                    <div>
+                        <prev-next-buttons {(current-index)}="options.selectedItem"
+                                        {(total-count)}="options.pageInfo.total"
+                        is-subtree-item="isSubTreeItem">
+                        </prev-next-buttons>
+                    </div>
+                {{/unless}}
+            {{/is_info_pin}}
+
+            {{#unless isEditDenied}}
+                    <object-state-toolbar
+                                        {verifiers}="verifiers"
+                                        {instance}="instance"
+                                        {disabled}="isPending"
+                                        (on-state-change)="onStateChange(%event)">
+                    </object-state-toolbar>
+            {{/unless}}
+            <div class="form-status">
+                <info-pane-save-status {info-pane-saving}="isInfoPaneSaving">
+                    <loading-status
+                        class="loading-status"
+                        {is-loading}="infoPaneSaving"
+                        loading-text="Saving..."
+                        show-Spinner="true">
+                    </loading-status>
+                </info-pane-save-status>
+            </div>
+          </div>
         </div>
     </div>
 </div>

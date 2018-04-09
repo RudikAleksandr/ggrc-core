@@ -64,5 +64,11 @@
   .pane-header {
     border-bottom: 1px solid $sidenavBorder;
     padding-bottom: 19px;
+
+    .info-pane-utility {
+      .btn {
+        margin-left: 10px;
+      }
+    }
   }
 }

@@ -7,7 +7,7 @@
 {{#instance}}
   <div class="pane-header {{#if snapshot}}snapshot{{/if}}" >
     <div class="row-fluid wrap-row">
-      <div data-test-id="title_0ad9fbaf" class="span9">
+      <div data-test-id="title_0ad9fbaf" class="span7">
         {{#is_info_pin}}
           <h6>{{modifyFieldTitle instance.type 'Title'}}</h6>
         {{/is_info_pin}}
@@ -33,6 +33,15 @@
         </p>
         {{/if}}
       </div>
+
+      <div class="span5 pane-header__toolbar">
+        {{#is_info_pin}}
+          <info-pin-buttons maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
+        {{/is_info_pin}}
+
+        {{> /static/mustache/base_objects/info-pane-utility.mustache}}
+      </div>
+
       {{#if snapshot}}
       {{#if canGetLatestRevision}}
           <div class="span12 snapshot">

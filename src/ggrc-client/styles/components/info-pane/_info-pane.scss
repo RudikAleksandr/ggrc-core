@@ -143,24 +143,16 @@
       }
     }
 
-    .pane-header__toolbar {
-      display: flex;
-      flex-direction: row-reverse;
+    .pane-header__toolbar {      
+      .info-pane-utility {
+        flex-direction: row-reverse;
+      }
 
       .form-status {
         line-height: 28px;
 
         .loading-status {
           margin-right: 5px;
-        }
-      }
-
-      .pane-header__toolbar-item {
-        margin-top: 30px;
-
-        /* override "sticky-info-panel" margin */
-        .details-wrap {
-          margin-top: 0px !important;
         }
       }
     }

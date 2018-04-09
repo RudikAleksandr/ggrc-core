@@ -8,36 +8,37 @@
 
     <div class="span12">
         <section class="info audit-summary">
-            <div class="info-pane-utility">
-                {{^if instance.archived}}
-                    <add-object-button
-                        instance="instance"
-                        linkclass="btn btn-small btn-white"
-                        content="Create assessment"
-                        text="Create Assessment"
-                        singular="Assessment"
-                        plural="assessments"
-                        noparams="true">
-                    </add-object-button>
-
-                    <add-object-button
-                        instance="instance"
-                        linkclass="btn btn-small btn-darkBlue"
-                        content="Create Template"
-                        text="Define Assessment Template"
-                        singular="AssessmentTemplate"
-                        plural="assessment_templates">
-                    </add-object-button>
-                    <assessment-generator-button audit="instance" button='true'></assessment-generator-button>
-                {{/if}}
-            </div>
-
             <div class="tier-content">
                 <div class="pane-header">
                     {{#instance}}
                         <div class="row-fluid">
                             <div class="span3 title">
                                 <h3>Assessments</h3>
+                            </div>
+                            <div class="span9 pane-header__toolbar">
+                              <div class="info-pane-utility">
+                                  {{^if instance.archived}}
+                                      <add-object-button
+                                          instance="instance"
+                                          linkclass="btn btn-small btn-white"
+                                          content="Create assessment"
+                                          text="Create Assessment"
+                                          singular="Assessment"
+                                          plural="assessments"
+                                          noparams="true">
+                                      </add-object-button>
+
+                                      <add-object-button
+                                          instance="instance"
+                                          linkclass="btn btn-small btn-darkBlue"
+                                          content="Create Template"
+                                          text="Define Assessment Template"
+                                          singular="AssessmentTemplate"
+                                          plural="assessment_templates">
+                                      </add-object-button>
+                                      <assessment-generator-button audit="instance" button='true'></assessment-generator-button>
+                                  {{/if}}
+                              </div>
                             </div>
                         </div>
                     {{/instance}}

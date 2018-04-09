@@ -22,6 +22,7 @@
     z-index: zIndex(pane-header);
     transition: transform 0.5s;
   }
+
   &_hidden {
     top: 0;
     transform: translateY(-100%);
@@ -31,15 +32,23 @@
     transform: translateY(0%);
     box-shadow: 0px 5px 5px -5px rgba(0, 0, 0, 0.5);
   }
+
+  .pane-header__toolbar {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .pin-action {
   @extend %clearfix;
   @extend %reset-list;
+  position: relative;
+  bottom: 6px;
   float: right;
   li {
     float: left;
     a {
+      display: inline-block;
       width: 26px;
       height: 26px;
       line-height: 26px;
@@ -63,24 +72,6 @@
 
 .tier-content {
   position: relative;
-
-  &.pin {
-    .info-pane-utility {
-      .details-wrap {
-        margin-top: 10px;
-      }
-    }
-  }
-  .info-pane-utility {
-    .details-wrap {
-      margin-top: 0;
-    }
-  }
-}
-
-.info-pane-utility {
-  @extend %clearfix;
-  float: right;
 }
 
 .details-wrap {
@@ -100,17 +91,7 @@
   a {
     display: block;
   }
-  &.pin {
-    @extend %clearfix;
-    width: auto;
-    margin-left: 5px;
-    margin-top: -10px !important;
-    float: none;
-    clear: both;
-    .sticky-info-panel & {
-      margin-top: -3px;
-    }
-  }
+
   .bubble {
     float: left;
     margin-right: 4px;
@@ -130,7 +111,6 @@
     padding: 5px 0;
     margin-top: 6px;
     text-transform: none;
-    top: 100%;
     right: 0;
     left: auto;
     li {
@@ -180,6 +160,7 @@
       }
     }
   }
+
   &.status-wrap {
     float: none;
     clear: both;

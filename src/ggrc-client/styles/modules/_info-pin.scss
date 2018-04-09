@@ -95,36 +95,11 @@
   }
 }
 
-.sticky-info-panel {
-  .pane-header {
-    .details-wrap {
-      margin-top: 30px !important;
-    }
-  }
-  info-pin-buttons {
-    position: fixed;
-    right: 47px;
-    width: 100px;
-    z-index: zIndex(info-pin-buttons);
-
-    &.details-wrap {
-      margin-top: -8px;
-    }
-  }
-}
-
 .info-pane-utility {
   @extend %clearfix;
-  position: relative;
-  float: right;
-  z-index: zIndex(info-page-dropdown);
+  display: flex;
+  justify-content: flex-end;
 
-  .sticky-info-panel & {
-    position: fixed;
-    right: 47px;
-    z-index: zIndex(info-pane-utility);
-    margin-top: 24px;
-  }
   .assignable & {
     position: static;
     margin-top: 0;

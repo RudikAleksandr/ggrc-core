@@ -6,17 +6,11 @@
 {{#instance}}
   <section class="info{{#is_info_pin}} sticky-info-panel{{/is_info_pin}}">
 
-    {{#is_info_pin}}
-      <info-pin-buttons class="details-wrap" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
-    {{/is_info_pin}}
-
-    {{> '/static/mustache/base_objects/info-pane-utility.mustache'}}
-
     <div class="tier-content">
 
       <div class="pane-header">
         <div class="row-fluid wrap-row">
-          <div data-test-id="title_0ad9fbaf" class="span9">
+          <div data-test-id="title_0ad9fbaf" class="span6">
             {{#is_info_pin}}
               <h6>Title</h6>
             {{/is_info_pin}}
@@ -25,6 +19,13 @@
             {{#if status}}
               <span class="state-value {{addclass 'state' status}}">{{un_camel_case status}}</span>
             {{/if}}
+          </div>
+          <div class="span6 pane-header__toolbar">
+            {{#is_info_pin}}
+              <info-pin-buttons maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
+            {{/is_info_pin}}
+
+            {{> '/static/mustache/base_objects/info-pane-utility.mustache'}}
           </div>
         </div>
       </div>

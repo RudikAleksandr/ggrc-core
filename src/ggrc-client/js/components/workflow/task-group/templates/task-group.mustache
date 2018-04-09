@@ -5,43 +5,45 @@
 
   <section class="info{{#is_info_pin}} sticky-info-panel{{/is_info_pin}}">
 
-    {{#is_info_pin}}
-      <info-pin-buttons class="details-wrap" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
-    {{/is_info_pin}}
-
-    <div class="info-pane-utility">
-      {{#is_allowed 'update' instance}}
-        <div class="details-wrap">
-          <a class="btn btn-3bbps dropdown-toggle" href="#" data-toggle="dropdown">
-            <span class="bubble"></span>
-            <span class="bubble"></span>
-            <span class="bubble"></span>
-          </a>
-          <ul class="dropdown-menu three-dots-list" aria-labelledby="drop1" role="menu">
-            {{#using workflow=instance.workflow}}
-              {{^if_equals workflow.status 'Inactive'}}
-                {{> /static/mustache/base_objects/edit_object_link.mustache}}
-              {{/if_equals}}
-            {{/using}}
-            <li>
-              <task-group-clone task-group="instance">
-                <a href="javascript://">
-                  <i class="fa fa-clone"></i>
-                  Clone Task Group
-                </a>
-              </task-group-clone>
-            </li>
-          </ul>
-        </div>
-      {{/is_allowed}}
-    </div>
-
     <div class="tier-content">
       <div class="pane-header">
         <div class="row-fluid wrap-row">
-          <div class="span9">
+          <div class="span6">
             <h6>Title</h6>
             <h3>{{instance.title}}</h3>
+          </div>
+
+          <div class="span6 pane-header__toolbar">
+            {{#is_info_pin}}
+              <info-pin-buttons maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
+            {{/is_info_pin}}
+
+            <div class="info-pane-utility">
+              {{#is_allowed 'update' instance}}
+                <div class="details-wrap">
+                  <a class="btn btn-3bbps dropdown-toggle" href="#" data-toggle="dropdown">
+                    <span class="bubble"></span>
+                    <span class="bubble"></span>
+                    <span class="bubble"></span>
+                  </a>
+                  <ul class="dropdown-menu three-dots-list" aria-labelledby="drop1" role="menu">
+                    {{#using workflow=instance.workflow}}
+                      {{^if_equals workflow.status 'Inactive'}}
+                        {{> /static/mustache/base_objects/edit_object_link.mustache}}
+                      {{/if_equals}}
+                    {{/using}}
+                    <li>
+                      <task-group-clone task-group="instance">
+                        <a href="javascript://">
+                          <i class="fa fa-clone"></i>
+                          Clone Task Group
+                        </a>
+                      </task-group-clone>
+                    </li>
+                  </ul>
+                </div>
+              {{/is_allowed}}
+            </div>
           </div>
         </div>
       </div>
