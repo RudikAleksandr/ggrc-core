@@ -241,10 +241,23 @@ export default can.Control({
     );
   },
   ' scroll': function (el, ev) {
-    var header = this.element.find('.pane-header');
-    var isFixed = el.scrollTop() > 0;
+    const header = this.element.find('.pane-header');
 
-    header.toggleClass('pane-header__fixed', isFixed);
+    if (el.data('scrollTop') === undefined) {
+      el.data('scrollTop', 0);
+    }
+
+    if (el.scrollTop() === 0) {
+      header.removeClass('pane-header__show');
+    } else if (el.scrollTop() > header.outerHeight() && el.scrollTop() > el.data('scrollTop')) {
+      header.removeClass('pane-header__show');
+      header.addClass('pane-header__hiden');
+    } else if (el.scrollTop() < el.data('scrollTop')) {
+      header.removeClass('pane-header__hiden');
+      header.addClass('pane-header__show');
+    }
+
+    el.data('scrollTop', el.scrollTop());    
   },
   '{window} keyup'(el, event) {
     const ESCAPE_KEY_CODE = 27;
