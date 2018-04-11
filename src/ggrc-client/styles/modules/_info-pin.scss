@@ -101,20 +101,6 @@
 }
 
 .sticky-info-panel {
-  .pane-header {
-    .details-wrap {
-      margin-top: 30px !important;
-    }
-  }
-  info-pin-buttons {
-    top: -23px;
-    right: -5px;
-
-    &.info-pin-buttons {
-      margin-top: -8px;
-    }
-  }
-
   .snapshot info-pin-buttons {
     right: 20px;
   }
@@ -122,14 +108,10 @@
 
 .info-pane-utility {
   @extend %clearfix;
-  position: relative;
   float: right;
   z-index: zIndex(info-page-dropdown);
 
   .sticky-info-panel & {
-    position: absolute;
-    top: 0;
-    right: 47px;
     z-index: zIndex(info-pane-utility);
   }
   .sticky-info-panel .snapshot & {
@@ -147,6 +129,10 @@
   .question-link {
     padding-top: 6px;
     padding-right: 10px;
+  }
+
+  .audit-summary & {
+    position: relative;
   }
 }
 

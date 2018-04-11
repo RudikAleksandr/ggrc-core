@@ -22,6 +22,18 @@
     z-index: zIndex(pane-header);
   }
 
+  .flex-end-content {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .change-position {
+    position: relative;
+    left: 5px;
+    bottom: 2px;
+    margin-bottom: -6px;
+  }
+
   &_hidden {
     top: 0;
     transform: translateY(-100%);
@@ -39,6 +51,8 @@
 .pin-action {
   @extend %clearfix;
   @extend %reset-list;
+  position: relative;
+  bottom: 6px;
   float: right;
   li {
     float: left;
@@ -66,7 +80,6 @@
 
 .tier-content {
   position: relative;
-
   &.pin {
     .info-pane-utility {
       .details-wrap {
@@ -83,7 +96,6 @@
 
 .info-pane-utility {
   @extend %clearfix;
-  float: right;
 }
 
 .details-wrap {
@@ -131,7 +143,6 @@
     padding: 5px 0;
     margin-top: 6px;
     text-transform: none;
-    top: 100%;
     right: 0;
     left: auto;
     li {
@@ -181,10 +192,11 @@
       }
     }
   }
-  .dropdown-menu-pane {
-    top: 100%;
-    right: 0;
+
+  .tree-action & .dropdown-menu {
+    right: 40px;
   }
+
   &.status-wrap {
     float: none;
     clear: both;
@@ -199,47 +211,11 @@
       left: 0;
     }
   }
-}
 
-.details-wrap .dropdown-menu-pane-position {
-  top: 85%;
-}
-
-.tree-action .details-wrap .dropdown-menu {
-  top: 71%;
-  right: 40px;
-}
-
-.details-wrap-position-pane {
-    position: absolute;
-    top: 9px;
-    right: -52px;
-}
-
-.snapshot { 
-  .details-wrap-position-pane {
-    right: -59px;
-    height: 0;
+  people-list-info & {
+    float: right;
+    position: relative;
   }
-
-  .dropdown-menu {
-    top: 58px;
-  }
-}
-
-people-list-info .details-wrap {
-  float: right;
-  position: relative;
-  top: -10px;
-}
-
-.ggrc_controllers_info_widget .details-wrap {
-  position: relative;
-  top: -48px;
-}
-
-.ggrc_controllers_info_widget assessment-info-pane .details-wrap {
-  top: 0;
 }
 
 .navigation-wrap {

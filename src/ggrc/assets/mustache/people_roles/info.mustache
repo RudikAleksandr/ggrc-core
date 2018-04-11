@@ -29,30 +29,34 @@
             </div>
           {{/instance.email}}
         {{/if_match}}
-      </div>
 
-      {{#is_info_pin}}
-        <info-pin-buttons class="details-wrap details-wrap-position-pane" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
-      {{/is_info_pin}}
-
-      <div class="info-pane-utility">
-        <div class="details-wrap {{#if is_info_pin}}details-wrap-position-pane{{/if}}">
-          <a class="btn btn-3bbps dropdown-toggle" href="#" data-toggle="dropdown">
-            <span class="bubble"></span>
-            <span class="bubble"></span>
-            <span class="bubble"></span>
-          </a>
-          <ul class="dropdown-menu three-dots-list" aria-labelledby="drop1" role="menu">
-            <li class="border-bottom">
-              <clipboard-link title="Get permalink" notify="true" text="{{get_permalink_for_object instance}}" />
-            </li>
-            <li>
-              <a href="/people/{{instance.id}}" target="_blank">
-                <i class="fa fa-long-arrow-right"></i>
-                Open Profile Page
+        <div class="span3 {{#is_info_pin}}change-position{{/is_info_pin}}">
+          {{#is_info_pin}}
+            <div class="flex-end-content">
+              <info-pin-buttons class="details-wrap" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
+            </div>
+            {{/is_info_pin}}
+  
+          <div class="info-pane-utility flex-end-content">
+            <div class="details-wrap">
+              <a class="btn btn-3bbps dropdown-toggle" href="#" data-toggle="dropdown">
+                <span class="bubble"></span>
+                <span class="bubble"></span>
+                <span class="bubble"></span>
               </a>
-            </li>
-          </ul>
+              <ul class="dropdown-menu three-dots-list" aria-labelledby="drop1" role="menu">
+                <li class="border-bottom">
+                  <clipboard-link title="Get permalink" notify="true" text="{{get_permalink_for_object instance}}" />
+                </li>
+                <li>
+                  <a href="/people/{{instance.id}}" target="_blank">
+                    <i class="fa fa-long-arrow-right"></i>
+                    Open Profile Page
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>

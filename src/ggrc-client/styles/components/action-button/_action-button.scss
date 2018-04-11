@@ -53,13 +53,6 @@
   }
 }
 
-.dashboard_widgets .btn {
-  &.btn-position {
-    top: -48px;
-    left: -103px;
-  }
-}
-
 .btn {
   background: $white;
   color: $black;
@@ -81,12 +74,6 @@
 
   &:focus {
     outline: none;
-  }
-
-  &.btn-position {
-    position: absolute;
-    top: 39px;
-    left: -120px;
   }
 
   &.btn-red {

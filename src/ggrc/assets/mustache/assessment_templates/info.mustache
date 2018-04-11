@@ -10,7 +10,7 @@
 
       <div class="pane-header">
         <div class="row-fluid wrap-row">
-          <div data-test-id="title_0ad9fbaf" class="span9">
+          <div data-test-id="title_0ad9fbaf" class="span6">
             {{#is_info_pin}}
               <h6>Title</h6>
             {{/is_info_pin}}
@@ -20,12 +20,16 @@
               <span class="state-value {{addclass 'state' status}}">{{un_camel_case status}}</span>
             {{/if}}
           </div>
+          <div class="span6 {{#is_info_pin}}change-position{{/is_info_pin}}">
+            {{#is_info_pin}}
+              <div class="flex-end-content">
+                <info-pin-buttons class="details-wrap" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
+              </div>
+            {{/is_info_pin}}
+      
+            {{> '/static/mustache/base_objects/info-pane-utility.mustache'}}
+          </div>
         </div>
-        {{#is_info_pin}}
-          <info-pin-buttons class="details-wrap details-wrap-position-pane" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
-        {{/is_info_pin}}
-  
-        {{> '/static/mustache/base_objects/info-pane-utility.mustache'}}
       </div>
 
       <tab-container>

@@ -242,15 +242,18 @@ export default can.Control({
   },
   ' scroll': function (el, ev) {
     const header = this.element.find('.pane-header');
+    const divDetailsWrap = this.element.find('div.details-wrap');
     const scrollTop = el.scrollTop();
     const prevScrollTop = el.data('scrollTop') || 0;
+    const headerOuterHeight = header.outerHeight(); 
 
     if (scrollTop === 0) {
       header.removeClass('pane-header_visible');
-    } else if (scrollTop > header.outerHeight() && scrollTop > prevScrollTop) {
+    } else if (scrollTop > headerOuterHeight && scrollTop > prevScrollTop) {
       header.removeClass('pane-header_visible');
       header.addClass('pane-header_hidden');
-    } else if (scrollTop < prevScrollTop) {
+      divDetailsWrap.removeClass('open');            
+    } else if (scrollTop > headerOuterHeight && scrollTop < prevScrollTop) {
       header.removeClass('pane-header_hidden');
       header.addClass('pane-header_visible');
     }

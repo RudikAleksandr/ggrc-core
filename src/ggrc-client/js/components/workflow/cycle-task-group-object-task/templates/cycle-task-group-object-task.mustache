@@ -10,7 +10,7 @@
   {{#instance}}
     <div class="pane-header {{#if snapshot}}snapshot{{/if}}" >
       <div class="row-fluid wrap-row">
-        <div data-test-id="title_0ad9fbaf" class="span9">
+        <div data-test-id="title_0ad9fbaf" class="span6">
           {{#is_info_pin}}
             <h6>{{modifyFieldTitle instance.type 'Title'}}</h6>
           {{/is_info_pin}}
@@ -36,6 +36,67 @@
           </p>
           {{/if}}
         </div>
+        
+        <div class="span6 {{#is_info_pin}}change-position{{/is_info_pin}}">
+          <div class="flex-end-content">
+            <info-pin-buttons class="details-wrap" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
+          </div>
+          <div class="info-pane-utility flex-end-content">
+            {{#is_allowed 'update' instance context='for'}}
+              <div class="details-wrap">
+                <a class="btn btn-3bbps dropdown-toggle" href="#" data-toggle="dropdown">
+                  <span class="bubble"></span>
+                  <span class="bubble"></span>
+                  <span class="bubble"></span>
+                </a>
+                <ul class="dropdown-menu three-dots-list" aria-labelledby="drop1" role="menu">
+                  <li>
+                    <a href="javascript://" data-object-singular-override="Task for current Workflow Cycle" data-toggle="modal-ajax-form" data-modal-reset="reset" data-modal-class="modal-wide" data-object-singular="{{instance.class.model_singular}}" data-object-plural="{{instance.class.table_plural}}" data-object-id="{{instance.id}}">
+                      <i class="fa fa-pencil-square-o"></i>
+                      Edit Task
+                    </a>
+                  </li>
+                  <li>
+                    <clipboard-link title="Get permalink" notify="true" text="{{get_permalink_url}}" />
+                  </li>
+          
+                    <li>
+                      {{#if_equals instance.status 'Deprecated'}}
+                        <object-change-state
+                          {to-state}="initialState"
+                          (on-state-change)="onStateChange(%event)"
+                        >
+                          <a href="#">
+                            <i class="fa fa-reply"></i> Restore
+                          </a>
+                        </object-change-state>
+                      {{else}}
+                        <object-change-state
+                          to-state="Deprecated"
+                          (on-state-change)="onStateChange(%event)"
+                        >
+                          <a href="#">
+                            <i class="fa fa-times-circle"></i> Deprecate
+                          </a>
+                        </object-change-state>
+                      {{/if_equals}}
+                    </li>
+          
+                  {{#is_allowed 'delete' instance context='for'}}
+                    <li>
+                      <a data-toggle="modal-ajax-deleteform" data-object-plural="{{model.table_plural}}" data-object-singular="{{model.model_singular}}" data-modal-reset="reset" data-modal-class="modal" data-object-id="{{instance.id}}" href="javascript://">
+                        <i class="fa fa-trash"></i>
+                        Delete
+                      </a>
+                    </li>
+                  {{/is_allowed}}
+          
+                </ul>
+              </div>
+            {{/is_allowed}}
+          </div>
+        </div>
+      
         {{#if snapshot}}
         {{#if canGetLatestRevision}}
             <div class="span12 snapshot">
@@ -59,63 +120,6 @@
             </div>
         {{/if}}
         {{/if}}
-      </div>
-
-      <info-pin-buttons class="details-wrap details-wrap-position-pane" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
-
-      <div class="info-pane-utility">
-        {{#is_allowed 'update' instance context='for'}}
-          <div class="details-wrap {{#if is_info_pin}}details-wrap-position-pane{{/if}}">
-            <a class="btn btn-3bbps dropdown-toggle" href="#" data-toggle="dropdown">
-              <span class="bubble"></span>
-              <span class="bubble"></span>
-              <span class="bubble"></span>
-            </a>
-            <ul class="dropdown-menu three-dots-list" aria-labelledby="drop1" role="menu">
-              <li>
-                <a href="javascript://" data-object-singular-override="Task for current Workflow Cycle" data-toggle="modal-ajax-form" data-modal-reset="reset" data-modal-class="modal-wide" data-object-singular="{{instance.class.model_singular}}" data-object-plural="{{instance.class.table_plural}}" data-object-id="{{instance.id}}">
-                  <i class="fa fa-pencil-square-o"></i>
-                  Edit Task
-                </a>
-              </li>
-              <li>
-                <clipboard-link title="Get permalink" notify="true" text="{{get_permalink_url}}" />
-              </li>
-      
-                <li>
-                  {{#if_equals instance.status 'Deprecated'}}
-                    <object-change-state
-                      {to-state}="initialState"
-                      (on-state-change)="onStateChange(%event)"
-                    >
-                      <a href="#">
-                        <i class="fa fa-reply"></i> Restore
-                      </a>
-                    </object-change-state>
-                  {{else}}
-                    <object-change-state
-                      to-state="Deprecated"
-                      (on-state-change)="onStateChange(%event)"
-                    >
-                      <a href="#">
-                        <i class="fa fa-times-circle"></i> Deprecate
-                      </a>
-                    </object-change-state>
-                  {{/if_equals}}
-                </li>
-      
-              {{#is_allowed 'delete' instance context='for'}}
-                <li>
-                  <a data-toggle="modal-ajax-deleteform" data-object-plural="{{model.table_plural}}" data-object-singular="{{model.model_singular}}" data-modal-reset="reset" data-modal-class="modal" data-object-id="{{instance.id}}" href="javascript://">
-                    <i class="fa fa-trash"></i>
-                    Delete
-                  </a>
-                </li>
-              {{/is_allowed}}
-      
-            </ul>
-          </div>
-        {{/is_allowed}}
       </div>
     </div>
   {{/instance}}

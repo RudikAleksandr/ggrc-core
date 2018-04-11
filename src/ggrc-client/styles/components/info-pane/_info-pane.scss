@@ -146,7 +146,6 @@
     .pane-header__toolbar {
       display: flex;
       flex-direction: row-reverse;
-      position: relative;
 
       .form-status {
         line-height: 28px;
@@ -157,7 +156,7 @@
       }
 
       .pane-header__toolbar-item {
-        margin-top: 30px;
+        margin-top: 10px;
 
         /* override "sticky-info-panel" margin */
         .details-wrap {
