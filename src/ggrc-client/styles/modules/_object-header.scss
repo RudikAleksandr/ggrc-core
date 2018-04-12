@@ -145,6 +145,17 @@
     text-transform: none;
     right: 0;
     left: auto;
+    
+    .widget & {
+      top: 28px;
+    }
+    .tree-action & {
+      top: 80px;
+    }
+    .pin-content .assessment-module & {
+      top: 73px;
+    }
+
     li {
       float:none;
       clear: both;
