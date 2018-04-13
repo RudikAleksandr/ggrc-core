@@ -6,8 +6,7 @@
 {{! transcluded via renderLive in, for example, assets/mustache/sections/tier2_content.mustache }}
 {{#instance}}
   <div class="pane-header {{#if snapshot}}snapshot{{/if}}" >
-    <div class="row-fluid wrap-row">
-      <div data-test-id="title_0ad9fbaf" class="span7">
+      <div class="pane-header__title" data-test-id="title_0ad9fbaf">
         {{#is_info_pin}}
           <h6>{{modifyFieldTitle instance.type 'Title'}}</h6>
         {{/is_info_pin}}
@@ -34,7 +33,7 @@
         {{/if}}
       </div>
 
-      <div class="span5 pane-header__toolbar">
+      <div class="pane-header__toolbar">
         {{#is_info_pin}}
           <info-pin-buttons maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
         {{/is_info_pin}}
@@ -65,6 +64,5 @@
           </div>
       {{/if}}
       {{/if}}
-    </div>
   </div>
 {{/instance}}

@@ -9,8 +9,7 @@
   <div class="tier-content">
     <div class="pane-header">
       {{#instance}}
-        <div class="row-fluid wrap-row">
-          <div class="span6">
+          <div class="pane-header__title">
             {{#is_info_pin}}
               <h6>Title</h6>
             {{/is_info_pin}}
@@ -30,7 +29,7 @@
             {{/if}}
           </div>
 
-          <div class="span6 pane-header__toolbar">
+          <div class="pane-header__toolbar">
             {{#is_info_pin}}
               <info-pin-buttons maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
             {{/is_info_pin}}
@@ -119,7 +118,6 @@
               {{/is_allowed}}
             </div>
           </div>
-        </div>
       {{/instance}}
     </div>
 

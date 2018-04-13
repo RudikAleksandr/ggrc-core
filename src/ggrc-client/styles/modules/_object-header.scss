@@ -4,6 +4,10 @@
  */
 
 .pane-header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 15px;
+
   h3 {
     max-width: 72%;
     float: left;

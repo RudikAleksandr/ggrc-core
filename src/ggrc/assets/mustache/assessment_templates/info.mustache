@@ -9,8 +9,7 @@
     <div class="tier-content">
 
       <div class="pane-header">
-        <div class="row-fluid wrap-row">
-          <div data-test-id="title_0ad9fbaf" class="span6">
+          <div class="pane-header__title" data-test-id="title_0ad9fbaf">
             {{#is_info_pin}}
               <h6>Title</h6>
             {{/is_info_pin}}
@@ -20,14 +19,13 @@
               <span class="state-value {{addclass 'state' status}}">{{un_camel_case status}}</span>
             {{/if}}
           </div>
-          <div class="span6 pane-header__toolbar">
+          <div class="pane-header__toolbar">
             {{#is_info_pin}}
               <info-pin-buttons maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
             {{/is_info_pin}}
 
             {{> '/static/mustache/base_objects/info-pane-utility.mustache'}}
           </div>
-        </div>
       </div>
 
       <tab-container>

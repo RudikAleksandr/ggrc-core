@@ -7,13 +7,12 @@
 
     <div class="tier-content">
       <div class="pane-header">
-        <div class="row-fluid wrap-row">
-          <div class="span6">
+          <div class="pane-header__title">
             <h6>Title</h6>
             <h3>{{instance.title}}</h3>
           </div>
 
-          <div class="span6 pane-header__toolbar">
+          <div class="pane-header__toolbar">
             {{#is_info_pin}}
               <info-pin-buttons maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
             {{/is_info_pin}}
@@ -45,7 +44,6 @@
               {{/is_allowed}}
             </div>
           </div>
-        </div>
       </div>
       {{> /static/mustache/task_groups/tier2_content.mustache}}
     </div>
