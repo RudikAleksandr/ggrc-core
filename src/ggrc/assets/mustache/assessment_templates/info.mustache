@@ -10,7 +10,7 @@
 
       <div class="pane-header">
         <div class="row-fluid wrap-row">
-          <div data-test-id="title_0ad9fbaf" class="span6">
+          <div class="pane-header__title" data-test-id="title_0ad9fbaf">
             {{#is_info_pin}}
               <h6>Title</h6>
             {{/is_info_pin}}
@@ -20,7 +20,7 @@
               <span class="state-value {{addclass 'state' status}}">{{un_camel_case status}}</span>
             {{/if}}
           </div>
-          <div class="span6 {{#is_info_pin}}change-position{{/is_info_pin}}">
+          <div class="{{#is_info_pin}}change-position{{/is_info_pin}}">
             {{#is_info_pin}}
               <div class="flex-end-content">
                 <info-pin-buttons class="details-wrap" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>

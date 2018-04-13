@@ -10,6 +10,14 @@
     margin-right: 8px;
     word-wrap: break-word;
   }
+  
+  .row-fluid {
+    display: flex;
+  }
+
+  &__title {
+    flex-basis: 96%;
+  }
 
   .sticky-info-panel & {
     position: sticky;      
@@ -152,6 +160,10 @@
     .tree-action & {
       top: 80px;
     }
+    .pin-content & {
+      top: 54px;
+    }
+
     .pin-content .assessment-module & {
       top: 73px;
     }

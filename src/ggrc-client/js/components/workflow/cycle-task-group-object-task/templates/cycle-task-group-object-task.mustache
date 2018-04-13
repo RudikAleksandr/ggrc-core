@@ -10,7 +10,7 @@
   {{#instance}}
     <div class="pane-header {{#if snapshot}}snapshot{{/if}}" >
       <div class="row-fluid wrap-row">
-        <div data-test-id="title_0ad9fbaf" class="span6">
+        <div class="pane-header__title" data-test-id="title_0ad9fbaf">
           {{#is_info_pin}}
             <h6>{{modifyFieldTitle instance.type 'Title'}}</h6>
           {{/is_info_pin}}
@@ -37,7 +37,7 @@
           {{/if}}
         </div>
         
-        <div class="span6 {{#is_info_pin}}change-position{{/is_info_pin}}">
+        <div class="{{#is_info_pin}}change-position{{/is_info_pin}}">
           <div class="flex-end-content">
             <info-pin-buttons class="details-wrap" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
           </div>
