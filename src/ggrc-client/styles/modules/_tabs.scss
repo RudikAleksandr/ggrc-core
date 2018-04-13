@@ -4,6 +4,8 @@
  */
 
 .tab-container {
+  padding: 0 25px;
+
   &_hidden-tabs {
     .nav-tabs {
       display: none;
