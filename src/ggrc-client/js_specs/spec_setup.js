@@ -30,7 +30,6 @@ GGRC.config = {
     'Risk',
     'Facility',
     'Process',
-    'Clause',
     'Requirement',
     'DataAsset',
     'AccessGroup',
@@ -51,9 +50,6 @@ GGRC.Bootstrap = {
   exportable: [{
     title_plural: 'Audits',
     model_singular: 'Audit',
-  }, {
-    title_plural: 'Clauses',
-    model_singular: 'Clause',
   }, {
     title_plural: 'Contracts',
     model_singular: 'Contract',
@@ -151,9 +147,6 @@ GGRC.Bootstrap = {
   importable: [{
     title_plural: 'Audits',
     model_singular: 'Audit',
-  }, {
-    title_plural: 'Clauses',
-    model_singular: 'Clause',
   }, {
     title_plural: 'Contracts',
     model_singular: 'Contract',

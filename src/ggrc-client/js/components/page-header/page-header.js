@@ -43,7 +43,6 @@ let colorsMap = {
   Policy: 'header-style-4',
   Standard: 'header-style-4',
   Contract: 'header-style-4',
-  Clause: 'header-style-4',
   Requirement: 'header-style-4',
   Control: 'header-style-4',
   Objective: 'header-style-4',

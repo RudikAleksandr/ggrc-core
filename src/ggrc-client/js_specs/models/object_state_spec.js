@@ -8,7 +8,7 @@ import Assessment from '../../js/models/business-models/assessment';
 import Issue from '../../js/models/business-models/issue';
 
 describe('Model states test', function () {
-  let basicStateObjects = ['AccessGroup', 'Clause', 'Contract',
+  let basicStateObjects = ['AccessGroup', 'Contract',
     'Control', 'DataAsset', 'Facility', 'Market',
     'Objective', 'OrgGroup', 'Policy', 'Process', 'Product', 'Program',
     'Project', 'Regulation', 'Risk', 'Requirement', 'Standard', 'System',
@@ -39,7 +39,7 @@ describe('Model states test', function () {
 });
 
 describe('Model review state test', function () {
-  let reviewObjects = ['AccessGroup', 'Assessment', 'Audit', 'Clause',
+  let reviewObjects = ['AccessGroup', 'Assessment', 'Audit',
     'Contract', 'Control', 'DataAsset', 'Facility', 'Issue', 'Market',
     'Objective', 'OrgGroup', 'Policy', 'Process', 'Product', 'Program',
     'Project', 'Regulation', 'Risk', 'Requirement', 'Standard', 'System',

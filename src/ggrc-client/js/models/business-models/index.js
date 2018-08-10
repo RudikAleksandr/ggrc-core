@@ -7,7 +7,6 @@ export {default as AccessGroup} from './access-group';
 export {default as Assessment} from './assessment';
 export {default as AssessmentTemplate} from './assessment-template';
 export {default as Audit} from './audit';
-export {default as Clause} from './clause';
 export {default as Contract} from './contract';
 export {default as Control} from './control';
 export {default as CycleTaskGroupObjectTask}

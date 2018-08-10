@@ -99,7 +99,6 @@ export default can.Control({
     if (!this.options.object_menu) {
       names = [
         'AccessGroup',
-        'Clause',
         'Contract',
         'Control',
         'DataAsset',

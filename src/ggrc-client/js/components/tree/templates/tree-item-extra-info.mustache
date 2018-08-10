@@ -19,17 +19,10 @@
         {{#if isDirective}}
           <section>
             <h3 class="task-list-title">Number of mapped objects</h3>
-            {{#if_instance_of instance 'Contract'}}
-              <mapped-counter {instance}="instance"
-                              type="Clause"
-                              {add-content}="@addContent"
-              ></mapped-counter>
-            {{else}}
-              <mapped-counter {instance}="instance"
-                              type="Requiremenet"
-                              {add-content}="@addContent"
-              ></mapped-counter>
-            {{/if_instance_of}}
+            <mapped-counter {instance}="instance"
+                            type="Requiremenet"
+                            {add-content}="@addContent"
+            ></mapped-counter>
           </section>
         {{/if}}
 

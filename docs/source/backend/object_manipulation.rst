@@ -1205,7 +1205,6 @@ GGRC object Type
 * Audit
 * AccessGroup
 * Assessment
-* Clause
 * Contract
 * Control
 * CycleTaskGroupObjectTask

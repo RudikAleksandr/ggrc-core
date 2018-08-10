@@ -99,11 +99,6 @@
   }
 }
 
-.#{$fa-css-prefix}-clause {
-  &:before { content: $fa-var-sticky-note; }
-  &.color { color: #135c89; }
-}
-
 .#{$fa-css-prefix}-cycle:before { content: $fa-var-play-circle; }
 
 .#{$fa-css-prefix}-access_group {

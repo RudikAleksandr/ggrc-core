@@ -32,7 +32,7 @@ import Person from '../models/business-models/person';
   let WorkflowExtension = {};
   let _workflowObjectTypes = Array.prototype.concat.call(
     [],
-    'Program Regulation Policy Standard Contract Clause Requirement'.split(' '),
+    'Program Regulation Policy Standard Contract Requirement'.split(' '),
     'Request Control Objective OrgGroup Vendor AccessGroup'.split(' '),
     'System Process DataAsset Product Project Facility Market'.split(' '),
     'Issue Risk Threat Metric TechnologyEnvironment ProductGroup'.split(' ')
@@ -151,7 +151,7 @@ import Person from '../models/business-models/person';
             'DataAsset', 'Facility', 'Market', 'OrgGroup', 'Vendor', 'Process',
             'Product', 'ProductGroup', 'Project', 'System', 'Regulation',
             'Policy', 'Contract', 'Standard', 'Program', 'Issue', 'Control',
-            'Requirement', 'Clause', 'Objective', 'Audit', 'AccessGroup',
+            'Requirement', 'Objective', 'Audit', 'AccessGroup',
             'Metric', 'Risk', 'TechnologyEnvironment', 'Threat',
           ],
         },
@@ -196,7 +196,6 @@ import Person from '../models/business-models/person';
         programs: TypeFilter('related_objects', 'Program'),
         controls: TypeFilter('related_objects', 'Control'),
         requirements: TypeFilter('related_objects', 'Requirement'),
-        clauses: TypeFilter('related_objects', 'Clause'),
         objectives: TypeFilter('related_objects', 'Objective'),
         cycle: Direct(
           'Cycle', 'cycle_task_group_object_tasks', 'cycle'),

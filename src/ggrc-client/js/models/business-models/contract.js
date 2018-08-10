@@ -28,7 +28,7 @@ export default Directive('CMS.Models.Contract', {
   meta_kinds: ['Contract'],
   cache: can.getObject('cache', Directive, true),
   sub_tree_view_options: {
-    default_filter: ['Clause'],
+    default_filter: ['Requirement'],
   },
   defaults: {
     status: 'Draft',

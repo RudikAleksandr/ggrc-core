@@ -201,7 +201,7 @@ describe('StateUtils', function () {
       function () {
         let models = ['Standard', 'Regulation', 'Requirement', 'Objective',
           'Control', 'Product', 'System', 'Process', 'AccessGroup',
-          'Assessment', 'Clause', 'Contract', 'DataAsset', 'Facility',
+          'Assessment', 'Contract', 'DataAsset', 'Facility',
           'Issue', 'Market', 'OrgGroup', 'Policy', 'Program', 'Project',
           'Risk', 'Threat', 'Vendor', 'Audit', 'RiskAssessment', 'Workflow',
           'AssessmentTemplate', 'Person', 'TaskGroup', 'TaskGroupTask',
@@ -238,7 +238,7 @@ describe('StateUtils', function () {
         let expected = [];
         let models = ['Standard', 'Regulation', 'Requirement', 'Objective',
           'Control', 'Product', 'System', 'Process', 'AccessGroup',
-          'Assessment', 'Clause', 'Contract', 'DataAsset', 'Facility',
+          'Assessment', 'Contract', 'DataAsset', 'Facility',
           'Issue', 'Market', 'OrgGroup', 'Policy', 'Program', 'Project',
           'Risk', 'Threat', 'Vendor', 'Audit', 'RiskAssessment', 'Workflow',
           'AssessmentTemplate', 'Person', 'TaskGroup', 'TaskGroupTask',

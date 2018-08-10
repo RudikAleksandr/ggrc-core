@@ -30,22 +30,19 @@ import AccessControlRole from '../custom-roles/access-control-role';
         'related_object', 'personable', 'assignable',
       ],
       orphaned_objects: Multi([
-        'related_objects', 'clauses', 'controls', 'programs', 'objectives',
+        'related_objects', 'controls', 'programs', 'objectives',
         'people',
       ]),
     },
     Objective: {
       _mixins: ['related_object', 'personable'],
       orphaned_objects: Multi([
-        'related_objects', 'clauses', 'contracts', 'controls',
+        'related_objects', 'contracts', 'controls',
         'objectives', 'people', 'policies', 'programs', 'regulations',
         'requirements', 'standards',
       ]),
     },
     Requirement: {
-      _mixins: ['related_object', 'personable'],
-    },
-    Clause: {
       _mixins: ['related_object', 'personable'],
     },
     Document: {
@@ -71,7 +68,7 @@ import AccessControlRole from '../custom-roles/access-control-role';
           'DataAsset', 'Facility', 'Market', 'OrgGroup', 'Vendor', 'Process',
           'Product', 'ProductGroup', 'Project', 'System', 'Regulation',
           'Policy', 'Contract', 'Standard', 'Program', 'Issue', 'Control',
-          'Requirement', 'Clause', 'Objective', 'Audit', 'Assessment',
+          'Requirement', 'Objective', 'Audit', 'Assessment',
           'AssessmentTemplate', 'AccessGroup', 'Risk', 'Threat', 'Document',
           'Metric', 'TechnologyEnvironment',
         ],
@@ -112,7 +109,6 @@ import AccessControlRole from '../custom-roles/access-control-role';
       programs: TypeFilter('related_objects', 'Program'),
       controls: TypeFilter('related_objects', 'Control'),
       requirements: TypeFilter('related_objects', 'Requirement'),
-      clauses: TypeFilter('related_objects', 'Clause'),
       objectives: TypeFilter('related_objects', 'Objective'),
       risks: TypeFilter('related_objects', 'Risk'),
       threats: TypeFilter('related_objects', 'Threat'),
@@ -184,7 +180,6 @@ import AccessControlRole from '../custom-roles/access-control-role';
       ],
       orphaned_objects: Multi([
         'related_objects', 'people', 'controls', 'objectives', 'requirements',
-        'clauses',
       ]),
     },
     AccessGroup: {
@@ -230,7 +225,7 @@ import AccessControlRole from '../custom-roles/access-control-role';
       _canonical: {
         related_objects: [
           'Program', 'Regulation', 'Contract', 'Policy', 'Standard',
-          'AccessGroup', 'Objective', 'Control', 'Requirement', 'Clause',
+          'AccessGroup', 'Objective', 'Control', 'Requirement',
           'DataAsset', 'Facility', 'Market', 'Metric', 'OrgGroup', 'Vendor',
           'Process', 'Product', 'Project', 'System', 'Issue', 'Risk', 'Threat',
           'Assessment', 'Document', 'TechnologyEnvironment', 'ProductGroup'],
