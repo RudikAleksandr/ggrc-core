@@ -10,7 +10,7 @@ import {
   isAdmin,
 } from '../plugins/utils/current-page-utils';
 import DisplayPrefs from '../models/local-storage/display-prefs';
-import LocalStorage from '../models/local-storage/local-storage';
+import * as LocalStorage from '../plugins/utils/local-storage-utils';
 
 const Dashboard = can.Control({
   pluginName: 'cms_controllers_dashboard',

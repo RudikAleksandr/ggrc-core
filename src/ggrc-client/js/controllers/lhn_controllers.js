@@ -11,6 +11,7 @@ import {getPageInstance} from '../plugins/utils/current-page-utils';
 import Cacheable from '../models/cacheable'
 import Search from '../models/service-models/search';
 import DisplayPrefs from '../models/local-storage/display-prefs';
+import * as LocalStorage from '../plugins/utils/local-storage-utils';
 
 can.Control('CMS.Controllers.LHN', {
   defaults: {}
@@ -146,7 +147,7 @@ can.Control('CMS.Controllers.LHN', {
   },
 
   init_lhn: function () {
-    DisplayPrefs.getSingleton().done(function (prefs) {
+    DisplayPrefs.getSingleton().done(function (prefs) {    
       let $lhs = $('#lhs');
       let lhn_search_dfd;
       let my_work_tab = false;
@@ -964,27 +965,27 @@ can.Control('GGRC.Controllers.RecentlyViewed', {
     let instance_list = [];
     let that = this;
 
-    RecentlyViewedObject.findAll().done(function (objs) {
-      let max_history = that.options.max_history;
-      if (page_model) {
-        instance_list.push(new RecentlyViewedObject(page_model));
-        instance_list[0].save();
-        max_history--;
-      }
+    const objs = LocalStorage.getAll(RecentlyViewedObject);
+    let max_history = that.options.max_history;
+    if (page_model) {
+      instance_list.push(new RecentlyViewedObject(page_model));
+      LocalStorage.add(RecentlyViewedObject, instance_list[0]);
+      max_history--;
+    }
 
-      for (let i = objs.length - 1; i >= 0; i--) {
-        if ((page_model && page_model.viewLink === objs[i].viewLink)
-            || objs.length - i > max_history || !('viewLink' in objs[i])
-          ) {
-          objs.splice(i, 1)[0].destroy(); // remove duplicate of current page object or excessive objects
-        } else if (instance_list.length < that.options.max_display) {
-          instance_list.push(objs[i]);
-        }
+    for (let i = objs.length - 1; i >= 0; i--) {
+      if ((page_model && page_model.viewLink === objs[i].viewLink)
+          || objs.length - i > max_history || !('viewLink' in objs[i])
+        ) {
+        const objId = objs.splice(i, 1)[0].id; 
+        LocalStorage.remove(RecentlyViewedObject, objId); // remove duplicate of current page object or excessive objects
+      } else if (instance_list.length < that.options.max_display) {
+        instance_list.push(objs[i]);
       }
+    }
 
-      can.view(that.options.list_view, {list: instance_list}, function (frag) {
-        that.element.find('.top-level.recent').html(frag);
-      });
+    can.view(that.options.list_view, {list: instance_list}, function (frag) {
+      that.element.find('.top-level.recent').html(frag);
     });
   }
 });
