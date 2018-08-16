@@ -17,7 +17,7 @@ export default can.Component.extend({
   init: function () {
     let selectedType = this.viewModel.selectedType;
     let types = this.viewModel.types;
-    let groups = ['business', 'entities', 'governance'];
+    let groups = ['business', 'governance'];
     let values = [];
 
     groups.forEach(function (name) {

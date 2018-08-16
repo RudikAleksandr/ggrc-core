@@ -31,10 +31,6 @@ export default can.Construct.extend({
   modules: {},
   getTypeGroups: function () {
     return {
-      entities: {
-        name: 'People/Groups',
-        items: [],
-      },
       business: {
         name: 'Scope',
         items: [],
