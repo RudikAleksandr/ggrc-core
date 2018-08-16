@@ -4,14 +4,12 @@
 */
 
 import {
-  waitsFor,
   makeFakeInstance,
 } from '../spec_helpers';
 import DisplayPrefs from '../../js/models/local-storage/display-prefs';
-import LocalStorage from '../../js/models/local-storage/local-storage';
+import * as LocalStorage from '../../js/plugins/utils/local-storage-utils';
 
 describe('display prefs model', function () {
-
   let display_prefs;
   let exp;
   beforeAll(function () {
@@ -24,11 +22,10 @@ describe('display prefs model', function () {
     display_prefs.isNew() || display_prefs.destroy();
   });
 
-  describe('#init', function ( ){
+  describe('#init', function ( ) {
     it('sets autoupdate to true by default', function () {
       expect(display_prefs.autoupdate).toBe(true);
     });
-
   });
 
   describe('low level accessors', function () {
@@ -55,20 +52,19 @@ describe('display prefs model', function () {
       });
 
       it('makes a nested path of can.Observes when the key has multiple levels', function () {
-        let newval = display_prefs.makeObject('baz', 'quux');
+        display_prefs.makeObject('baz', 'quux');
         expect(display_prefs.baz.quux instanceof can.Observe).toBeTruthy();
       });
-
     });
 
     describe('#getObject', function () {
       it('returns a set value whether or not the value is an Observe', function () {
         expect(display_prefs.getObject('foo')).toBe('bar');
         display_prefs.makeObject('baz', 'quux');
-        expect(display_prefs.getObject('baz').serialize()).toEqual({ 'quux': {}});
+        expect(display_prefs.getObject('baz').serialize()).toEqual({quux: {}});
       });
 
-      it('returns undefined when the key is not found', function (){
+      it('returns undefined when the key is not found', function () {
         expect(display_prefs.getObject('xyzzy')).not.toBeDefined();
       });
     });
@@ -141,182 +137,62 @@ describe('display prefs model', function () {
 
   describe('#getCollapsed', getSpecs('getCollapsed', 'COLLAPSE', true, false));
 
-  describe('#getSorts', getSpecs('getSorts', 'SORTS', ['baz, quux'], ['thud', 'jeek']));
-
-
   function setSpecs(func, token, fooValue, barValue) {
     return function () {
-      let exp_token;
+      let expToken;
       beforeEach(function () {
-        exp_token = exp[token];
+        expToken = exp[token];
       });
       afterEach(function () {
-        display_prefs.removeAttr(exp_token);
+        display_prefs.removeAttr(expToken);
         display_prefs.removeAttr(exp.path);
       });
 
 
       it('sets the value for a widget', function () {
         display_prefs[func]('this arg is ignored', 'foo', fooValue);
-        let fooActual = display_prefs.attr([exp.path, exp_token, 'foo'].join('.'));
+        let fooActual = display_prefs.attr([exp.path, expToken, 'foo'].join('.'));
         expect(fooActual.serialize ? fooActual.serialize() : fooActual).toEqual(fooValue);
       });
 
       it('sets all values as a collection', function () {
-        display_prefs[func]('this arg is ignored', {'foo': fooValue, 'bar': barValue});
-        let fooActual = display_prefs.attr([exp.path, exp_token, 'foo'].join('.'));
-        let barActual = display_prefs.attr([exp.path, exp_token, 'bar'].join('.'));
+        display_prefs[func]('this arg is ignored', {foo: fooValue, bar: barValue});
+        let fooActual = display_prefs.attr([exp.path, expToken, 'foo'].join('.'));
+        let barActual = display_prefs.attr([exp.path, expToken, 'bar'].join('.'));
         expect(fooActual.serialize ? fooActual.serialize() : fooActual).toEqual(fooValue);
         expect(barActual.serialize ? barActual.serialize() : barActual).toEqual(barValue);
       });
     };
   }
 
-  describe('#setSorts', setSpecs('setSorts', 'SORTS', ['bar', 'baz'], ['thud', 'jeek']));
+  describe('#getAll', function () {
+    let dpNoversion;
+    let dp2Outdated;
+    let dp3Current;
 
-  describe('Set/Reset functions', function () {
-
-    describe('#resetPagePrefs', function () {
-
-      beforeEach(function () {
-        can.each([exp.SORTS, exp.COLLAPSE], function (exp_token) {
-          display_prefs.makeObject(exp_token, 'unit_test').attr('foo', 'bar'); // page type defaults
-          display_prefs.makeObject(exp.path, exp_token).attr('foo', 'baz'); // page custom settings
-        });
-      });
-      afterEach(function () {
-        display_prefs.removeAttr(exp.path);
-        can.each([exp.SORTS, exp.COLLAPSE], function (exp_token) {
-          display_prefs.removeAttr(exp_token);
-        });
-      });
-
-      it('sets the page layout to the default for the page type', function () {
-        display_prefs.resetPagePrefs();
-        can.each(['getSorts', 'getCollapsed'], function (func) {
-          expect(display_prefs[func]('unit_test', 'foo')).toBe('bar');
-        });
-      });
-
-    });
-
-    describe('#setPageAsDefault', function () {
-      beforeEach(function () {
-        can.each([exp.SORTS, exp.COLLAPSE], function (exp_token) {
-          display_prefs.makeObject(exp_token, 'unit_test').attr('foo', 'bar'); // page type defaults
-          display_prefs.makeObject(exp.path, exp_token).attr('foo', 'baz'); // page custom settings
-        });
-      });
-      afterEach(function () {
-        display_prefs.removeAttr(exp.path);
-        can.each([exp.SORTS, exp.COLLAPSE], function (exp_token) {
-          display_prefs.removeAttr(exp_token);
-        });
-      });
-
-      it('sets the page layout to the default for the page type', function () {
-        display_prefs.setPageAsDefault('unit_test');
-        can.each([exp.SORTS, exp.COLLAPSE], function (exp_token) {
-          expect(display_prefs.attr([exp_token, 'unit_test', 'foo'].join('.'))).toBe('baz');
-        })
-      });
-
-      it('keeps the page and the defaults separated', function () {
-        display_prefs.setPageAsDefault('unit_test');
-        can.each(['setCollapsed', 'setSorts'], function (func) {
-          display_prefs[func]('unit_test', 'foo', 'quux');
-        });
-        can.each([exp.SORTS, exp.COLLAPSE], function (exp_token) {
-          expect(display_prefs.attr([exp_token, 'unit_test', 'foo'].join('.'))).toBe('baz');
-        });
-      });
-
-    });
-
-  });
-
-  describe('#findAll', function () {
-    let dp_noversion;
-    let dp2_outdated;
-    let dp3_current;
     beforeEach(function () {
       const instanceCreator = makeFakeInstance({
         model: DisplayPrefs
       });
-      dp_noversion = instanceCreator();
-      dp2_outdated = instanceCreator({version: 1});
-      dp3_current = instanceCreator({version: DisplayPrefs.version});
 
-      spyOn(LocalStorage, 'findAll').and.returnValue(new $.Deferred().resolve([dp_noversion, dp2_outdated, dp3_current]));
-      spyOn(dp_noversion, 'destroy');
-      spyOn(dp2_outdated, 'destroy');
-      spyOn(dp3_current, 'destroy');
+      dpNoversion = instanceCreator();
+      dp2Outdated = instanceCreator({version: 1});
+      dp3Current = instanceCreator({version: DisplayPrefs.version});
+
+      spyOn(LocalStorage, 'getAll').and.returnValue([dpNoversion, dp2Outdated, dp3Current]);
+      spyOn(LocalStorage, 'remove');
     });
-    it('deletes any prefs that do not have a version set', function (done) {
-      let dfd = DisplayPrefs.findAll().done(function (dps) {
-        expect(dps).not.toContain(dp_noversion);
-        expect(dp_noversion.destroy).toHaveBeenCalled();
-      });
+    it('deletes any prefs that do not have a version set', function () {
+      let dps = DisplayPrefs.getAll();
 
-      waitsFor(function () { // sanity check --ensure deferred resolves/rejects
-        return dfd.state() !== 'pending';
-      }, done);
+      expect(dps).not.toContain(dpNoversion);
+      expect(LocalStorage.remove).toHaveBeenCalled();
     });
     it('deletes any prefs that have an out of date version', function () {
-      DisplayPrefs.findAll().done(function (dps) {
-        expect(dps).not.toContain(dp2_outdated);
-        expect(dp2_outdated.destroy).toHaveBeenCalled();
-      });
-    });
-    it('retains any prefs that do not have a version set', function () {
-      DisplayPrefs.findAll().done(function (dps) {
-        expect(dps).toContain(dp3_current);
-        expect(dp3_current.destroy).not.toHaveBeenCalled();
-      });
+      let dps = DisplayPrefs.getAll();
+
+      expect(dps).not.toContain(dp2Outdated);
+      expect(LocalStorage.remove).toHaveBeenCalled();
     });
   });
-
-  describe('#findOne', function () {
-    let dp_noversion;
-    let dp2_outdated;
-    let dp3_current;
-    beforeEach(function () {
-      dp_noversion = new DisplayPrefs({});
-      dp2_outdated = new DisplayPrefs({ version: 1});
-      dp3_current = new DisplayPrefs({ version: DisplayPrefs.version });
-    });
-    it('404s if the display pref does not have a version set', function (done) {
-      spyOn(LocalStorage, 'findOne').and.returnValue(new $.Deferred().resolve(dp_noversion));
-      spyOn(dp_noversion, 'destroy');
-      let dfd = DisplayPrefs.findOne().done(function (dps) {
-        fail('Should not have resolved findOne for the unversioned display pref');
-      }).fail(function (pseudoxhr) {
-        expect(pseudoxhr.status).toBe(404);
-        expect(dp_noversion.destroy).toHaveBeenCalled();
-      });
-      waitsFor(function () { // sanity check --ensure deferred resolves/rejects
-        return dfd.state() !== 'pending';
-      }, done);
-    });
-    it('404s if the display pref has an out of date version', function () {
-      spyOn(LocalStorage, 'findOne').and.returnValue(new $.Deferred().resolve(dp2_outdated));
-      spyOn(dp2_outdated, 'destroy');
-      DisplayPrefs.findOne().done(function (dps) {
-        fail('Should not have resolved findOne for the outdated display pref');
-      }).fail(function (pseudoxhr) {
-        expect(pseudoxhr.status).toBe(404);
-        expect(dp2_outdated.destroy).toHaveBeenCalled();
-      });
-    });
-    it('retains any prefs that do not have a version set', function () {
-      spyOn(LocalStorage, 'findOne').and.returnValue(new $.Deferred().resolve(dp3_current));
-      spyOn(dp3_current, 'destroy');
-      DisplayPrefs.findOne().done(function (dps) {
-        expect(dp3_current.destroy).not.toHaveBeenCalled();
-      }).fail(function () {
-        fail('Should have resolved on findOne for the current display pref');
-      });
-    });
-  });
-
 });

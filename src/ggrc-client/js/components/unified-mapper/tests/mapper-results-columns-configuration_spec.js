@@ -57,7 +57,7 @@ describe('mapper-results-columns-configuration component', function () {
     beforeEach(function () {
       spyOn(viewModel, 'initializeColumns');
       spyOn(DisplayPrefs, 'getSingleton')
-        .and.returnValue($.Deferred().resolve(displayPrefs));
+        .and.returnValue(displayPrefs);
     });
 
     it('calls initializeColumns()', function () {

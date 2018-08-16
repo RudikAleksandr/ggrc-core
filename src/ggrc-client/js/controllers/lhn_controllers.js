@@ -147,57 +147,56 @@ can.Control('CMS.Controllers.LHN', {
   },
 
   init_lhn: function () {
-    DisplayPrefs.getSingleton().done(function (prefs) {    
-      let $lhs = $('#lhs');
-      let lhn_search_dfd;
-      let my_work_tab = false;
+    const prefs = DisplayPrefs.getPreferences(); 
+    let $lhs = $('#lhs');
+    let lhn_search_dfd;
+    let my_work_tab = false;
 
-      this.options.display_prefs = prefs;
+    this.options.display_prefs = prefs;
 
-      if (typeof prefs.getLHNState().my_work !== 'undefined') {
-        my_work_tab = !!prefs.getLHNState().my_work;
+    if (typeof prefs.getLHNState().my_work !== 'undefined') {
+      my_work_tab = !!prefs.getLHNState().my_work;
+    }
+    this.obs.attr('my_work', my_work_tab);
+
+    lhn_search_dfd = $lhs
+        .cms_controllers_lhn_search({
+          observer: this.obs,
+          display_prefs: prefs
+        })
+        .control('lhn_search')
+        .display();
+
+    $lhs.cms_controllers_lhn_tooltips();
+
+      // Delay LHN initializations until after LHN is rendered
+    lhn_search_dfd.then(function () {
+      let checked = this.obs.attr('my_work');
+      let value = checked ? 'my_work' : 'all';
+      let target = this.element.find('#lhs input.my-work[value=' + value + ']');
+
+      target.prop('checked', true);
+      target.closest('.btn')
+          [checked ? 'addClass' : 'removeClass']('btn-green');
+
+        // When first loading up, wait for the list in the open section to be loaded (if there is an open section), then
+        //  scroll the LHN panel down to the saved scroll-Y position.  Scrolling the
+        //  open section is handled in the LHN Search controller.
+
+      if (this.options.display_prefs.getLHNState().open_category) {
+        this.element.one('list_displayed', this.initial_scroll.bind(this));
+      } else {
+        this.initial_scroll();
       }
-      this.obs.attr('my_work', my_work_tab);
 
-      lhn_search_dfd = $lhs
-          .cms_controllers_lhn_search({
-            observer: this.obs,
-            display_prefs: prefs
-          })
-          .control('lhn_search')
-          .display();
+      this.toggle_filter_active();
 
-      $lhs.cms_controllers_lhn_tooltips();
-
-        // Delay LHN initializations until after LHN is rendered
-      lhn_search_dfd.then(function () {
-        let checked = this.obs.attr('my_work');
-        let value = checked ? 'my_work' : 'all';
-        let target = this.element.find('#lhs input.my-work[value=' + value + ']');
-
-        target.prop('checked', true);
-        target.closest('.btn')
-            [checked ? 'addClass' : 'removeClass']('btn-green');
-
-          // When first loading up, wait for the list in the open section to be loaded (if there is an open section), then
-          //  scroll the LHN panel down to the saved scroll-Y position.  Scrolling the
-          //  open section is handled in the LHN Search controller.
-
-        if (this.options.display_prefs.getLHNState().open_category) {
-          this.element.one('list_displayed', this.initial_scroll.bind(this));
-        } else {
-          this.initial_scroll();
-        }
-
-        this.toggle_filter_active();
-
-        if (this.options.display_prefs.getLHNState().is_pinned) {
-          this.pin();
-        }
-      }.bind(this));
-
-      this.initial_lhn_render();
+      if (this.options.display_prefs.getLHNState().is_pinned) {
+        this.pin();
+      }
     }.bind(this));
+
+    this.initial_lhn_render();
   },
 
   initial_scroll: function () {
@@ -381,21 +380,17 @@ can.Control('CMS.Controllers.LHN_Search', {
 }, {
   display: function () {
     let self = this;
-    let prefs = this.options.display_prefs;
-    let prefs_dfd;
     let template_path = GGRC.mustache_path + this.element.data('template');
-
-    prefs_dfd = DisplayPrefs.getSingleton();
+    
+    const displayPrefs = DisplayPrefs.getPreferences();
+    const prefs_dfd =  can.Deferred().resolve(displayPrefs.getLHNState());
 
       // 2-way binding is set up in the view using can-value, directly connecting the
       //  search box and the display prefs to save the search value between page loads.
       //  We also listen for this value in the controller
       //  to trigger the search.
-    return can.view(template_path, prefs_dfd.then(function (prefs) { return prefs.getLHNState(); })).then(function (frag, xhr) {
-      let lhn_prefs = prefs.getLHNState();
-      let initial_term;
-      let initial_params = {};
-      let saved_filters = prefs.getLHNState().filter_params;
+    return can.view(template_path, prefs_dfd).then(function (frag, xhr) {
+      let lhn_prefs = displayPrefs.getLHNState();
 
       self.element.html(frag);
       self.post_init();

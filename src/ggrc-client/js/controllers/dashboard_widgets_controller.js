@@ -69,7 +69,7 @@ export default Filterable({
 
     this._prepare_deferred = $.when(
       can.view(this.options.widget_view, $.when(this.options))
-      , DisplayPrefs.getSingleton()
+      , DisplayPrefs.getPreferences()
     ).then(this.proxy('draw_widget'));
 
     return this._prepare_deferred;

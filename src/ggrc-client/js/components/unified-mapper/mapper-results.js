@@ -78,11 +78,9 @@ export default can.Component.extend({
     deferredList: [],
     disabledIds: [],
     init: function () {
-      let self = this;
       this.attr('submitCbs').add(this.onSearch.bind(this, true));
-      DisplayPrefs.getSingleton().then(function (displayPrefs) {
-        self.attr('displayPrefs', displayPrefs);
-      });
+      const displayPrefs = DisplayPrefs.getPreferences();
+      this.attr('displayPrefs', displayPrefs);
     },
     destroy: function () {
       this.attr('submitCbs').remove(this.onSearch.bind(this));

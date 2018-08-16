@@ -3,9 +3,7 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 */
 
-import LocalStorage from './local-storage';
-
-export default LocalStorage('GGRC.Models.RecentlyViewedObject', {
+export default can.Model('GGRC.Models.RecentlyViewedObject', {
   newInstance: function (attrs) {
     if (attrs instanceof can.Model) {
       let title = (attrs.title && attrs.title.trim()) ||

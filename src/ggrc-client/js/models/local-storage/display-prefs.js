@@ -3,11 +3,10 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 */
 
-import LocalStorage from './local-storage';
+import * as LocalStorage from '../../plugins/utils/local-storage-utils';
 
 let COLLAPSE = 'collapse';
 let LHN_SIZE = 'lhn_size';
-let OBJ_SIZE = 'obj_size';
 let SORTS = 'sorts';
 let LHN_STATE = 'lhn_state';
 let TREE_VIEW_HEADERS = 'tree_view_headers';
@@ -17,75 +16,56 @@ let CHILD_TREE_DISPLAY_LIST = 'child_tree_display_list';
 let MODAL_STATE = 'modal_state';
 let path = window.location.pathname.replace(/\./g, '/');
 
-export default LocalStorage('CMS.Models.DisplayPrefs', {
+export default can.Model('CMS.Models.DisplayPrefs', {
   autoupdate: true,
   version: 20150129, // Last updated to add 2 accessors
 
-  findAll: function () {
-    let that = this;
-    let objsDfd = this._super(...arguments)
-      .then(function (objs) {
-        let i;
-        for (i = objs.length; i--;) {
-          if (!objs[i].version || objs[i].version < that.version) {
-            objs[i].destroy();
-            objs.splice(i, 1);
-          }
-        }
-        return objs;
-      });
-    return objsDfd;
-  },
+  getAll: function () {
+    let objs = LocalStorage.getAll(this);
 
-  findOne: function () {
-    let that = this;
-    let objDfd = this._super(...arguments)
-      .then(function (obj) {
-        let dfd;
-        let p;
-        if (!obj.version || obj.version < that.version) {
-          obj.destroy();
-          dfd = new $.Deferred();
-          p = dfd.promise();
-          p.status = 404;
-          return dfd.reject(p, 'error', 'Object expired');
-        } else {
-          return obj;
-        }
-      });
-    return objDfd;
-  },
-
-  create: function (opts) {
-    opts.version = this.version;
-    return this._super(opts);
-  },
-
-  update: function (id, opts) {
-    opts.version = this.version;
-    return this._super(id, opts);
-  },
-
-  getSingleton: function () {
-    let prefs;
-    if (this.cache) {
-      return $.when(this.cache);
+    for (let i = objs.length; i--;) {
+      if (!objs[i].version || objs[i].version < this.version) {
+        LocalStorage.remove(this, objs[i].id);
+        objs.splice(i, 1);
+      }
     }
 
-    this.findAll().then(function (d) {
-      if (d.length > 0) {
-        prefs = d[0];
-      } else {
-        prefs = new CMS.Models.DisplayPrefs();
-        prefs.save();
-      }
-    });
+    return objs;
+  },
+
+  add: function (opts = {}) {
+    opts.version = this.version;
+    return LocalStorage.add(this, opts);
+  },
+
+  update: function (opts) {
+    opts = opts.serialize();
+    opts.version = this.version;
+    return LocalStorage.update(this, opts);
+  },
+
+  getPreferences: function () {
+    let prefs;
+    if (this.cache) {
+      return this.cache;
+    }
+
+    let data = this.getAll();
+    if (data.length > 0) {
+      prefs = data[0];
+    } else {
+      prefs = CMS.Models.DisplayPrefs.add();
+    }
     this.cache = prefs;
-    return $.when(prefs);
+    return prefs;
   },
 }, {
   init: function () {
     this.autoupdate = this.constructor.autoupdate;
+  },
+
+  update: function () {
+    CMS.Models.DisplayPrefs.update(this);
   },
 
   makeObject: function () {
@@ -115,7 +95,7 @@ export default LocalStorage('CMS.Models.DisplayPrefs', {
     this.makeObject(pageId === null ? pageId : path, COLLAPSE)
       .attr(widgetId, isCollapsed);
 
-    this.autoupdate && this.save();
+    this.autoupdate && this.update();
     return this;
   },
 
@@ -139,7 +119,7 @@ export default LocalStorage('CMS.Models.DisplayPrefs', {
     obj.display_list = displayList;
     hdr.attr(modelName, obj);
 
-    this.autoupdate && this.save();
+    this.autoupdate && this.update();
     return this;
   },
 
@@ -162,7 +142,7 @@ export default LocalStorage('CMS.Models.DisplayPrefs', {
     obj.status_list = statusList;
     hdr.attr(modelName, obj);
 
-    this.autoupdate && this.save();
+    this.autoupdate && this.update();
     return this;
   },
 
@@ -188,7 +168,7 @@ export default LocalStorage('CMS.Models.DisplayPrefs', {
     obj.display_state = displayState;
     modalState.attr(modelName, obj);
 
-    this.autoupdate && this.save();
+    this.autoupdate && this.update();
     return this;
   },
 
@@ -212,7 +192,7 @@ export default LocalStorage('CMS.Models.DisplayPrefs', {
     obj.display_list = displayList;
     hdr.attr(modelName, obj);
 
-    this.autoupdate && this.save();
+    this.autoupdate && this.update();
     return this;
   },
 
@@ -229,7 +209,7 @@ export default LocalStorage('CMS.Models.DisplayPrefs', {
   setLHNavSize: function (pageId, widgetId, size) {
     this.makeObject(pageId === null ? pageId : path, LHN_SIZE)
       .attr(widgetId, size);
-    this.autoupdate && this.save();
+    this.autoupdate && this.update();
     return this;
   },
 
@@ -241,51 +221,6 @@ export default LocalStorage('CMS.Models.DisplayPrefs', {
     }
 
     return widgetId ? size.attr(widgetId) : size;
-  },
-
-  // sorts = position of widgets in each column on a page
-  // This is also use at page load to determine which widgets need to be
-  // generated client-side.
-  getSorts: function (pageId, columnId) {
-    let sorts = this.getObject(path, SORTS);
-    if (!sorts) {
-      sorts = this.makeObject(path, SORTS)
-        .attr(this.makeObject(SORTS, pageId).serialize());
-      this.autoupdate && this.save();
-    }
-
-    return columnId ? sorts.attr(columnId) : sorts;
-  },
-
-  setSorts: function (pageId, widgetId, sorts) {
-    let pageSorts = this.makeObject(path, SORTS);
-
-    if (typeof sorts === 'undefined' && typeof widgetId === 'object') {
-      sorts = widgetId;
-      widgetId = undefined;
-    }
-
-    pageSorts.attr(widgetId ? widgetId : sorts, widgetId ? sorts : undefined);
-
-    this.autoupdate && this.save();
-    return this;
-  },
-
-  // reset function currently resets all layout for a page type (first element in URL path)
-  resetPagePrefs: function () {
-    this.removeAttr(path);
-    return this.save();
-  },
-
-  setPageAsDefault: function (pageId) {
-    let that = this;
-    can.each([COLLAPSE, LHN_SIZE, OBJ_SIZE, SORTS],
-      function (key) {
-        that.makeObject(key)
-          .attr(pageId, new can.Observe(that.makeObject(path, key).serialize()));
-      });
-    this.save();
-    return this;
   },
 
   getLHNState: function () {
@@ -306,7 +241,7 @@ export default LocalStorage('CMS.Models.DisplayPrefs', {
       }
     );
 
-    this.autoupdate && this.save();
+    this.autoupdate && this.update();
     return this;
   },
 

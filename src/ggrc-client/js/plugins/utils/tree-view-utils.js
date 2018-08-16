@@ -292,7 +292,7 @@ function setColumnsForModel(modelType, columnNames, displayPrefs,
       modelName || CMS.Models[modelType].model_singular,
       selectedNames
     );
-    displayPrefs.save();
+    displayPrefs.update();
   }
 
   return {

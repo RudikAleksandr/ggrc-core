@@ -40,35 +40,34 @@ export default can.Control({
   },
 }, {
   init: function (options) {
-    DisplayPrefs.getSingleton().then(function (prefs) {
-      const instance = getPageInstance();
-      this.display_prefs = prefs;
-      this.options = new can.Map(this.options);
-      if (!this.options.widget_list) {
-        this.options.attr('widget_list', new can.Observe.List([]));
+    const prefs = DisplayPrefs.getPreferences();
+    const instance = getPageInstance();
+    this.display_prefs = prefs;
+    this.options = new can.Map(this.options);
+    if (!this.options.widget_list) {
+      this.options.attr('widget_list', new can.Observe.List([]));
+    }
+    this.options.attr('counts', getCounts());
+    this.options.attr('instance', instance);
+    if (!(this.options.contexts instanceof can.Observe)) {
+      this.options.attr('contexts', new can.Observe(this.options.contexts));
+    }
+
+    router.bind('widget', (ev, newVal)=>{
+      this.route(newVal);
+    });
+
+    can.view(this.options.internav_view, this.options, (frag) => {
+      const isAuditScope = instance.type === 'Audit';
+      this.element.append(frag);
+      if (isAuditScope) {
+        this.element.addClass(this.options.instance.type.toLowerCase());
       }
-      this.options.attr('counts', getCounts());
-      this.options.attr('instance', instance);
-      if (!(this.options.contexts instanceof can.Observe)) {
-        this.options.attr('contexts', new can.Observe(this.options.contexts));
-      }
+      this.setTabsPriority();
+      this.route(router.attr('widget'));
+    });
 
-      router.bind('widget', (ev, newVal)=>{
-        this.route(newVal);
-      });
-
-      can.view(this.options.internav_view, this.options, (frag) => {
-        const isAuditScope = instance.type === 'Audit';
-        this.element.append(frag);
-        if (isAuditScope) {
-          this.element.addClass(this.options.instance.type.toLowerCase());
-        }
-        this.setTabsPriority();
-        this.route(router.attr('widget'));
-      });
-
-      this.on();
-    }.bind(this));
+    this.on();
   },
 
   addRefetchOnceItems(modelNames) {

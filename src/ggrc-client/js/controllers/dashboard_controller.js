@@ -19,23 +19,22 @@ const Dashboard = can.Control({
   },
 }, {
   init: function (el, options) {
-    DisplayPrefs.getSingleton().then(function (prefs) {
-      this.display_prefs = prefs;
+    const prefs = DisplayPrefs.getPreferences();
+    this.display_prefs = prefs;
 
-      this.init_tree_view_settings();
-      this.init_page_title();
-      this.init_page_header();
-      this.init_widget_descriptors();
-      if (!this.inner_nav_controller) {
-        this.init_inner_nav();
-      }
+    this.init_tree_view_settings();
+    this.init_page_title();
+    this.init_page_header();
+    this.init_widget_descriptors();
+    if (!this.inner_nav_controller) {
+      this.init_inner_nav();
+    }
 
-      // Before initializing widgets, hide the container to not show
-      // loading state of multiple widgets before reducing to one.
-      this.hide_widget_area();
-      this.init_default_widgets();
-      this.init_widget_area();
-    }.bind(this));
+    // Before initializing widgets, hide the container to not show
+    // loading state of multiple widgets before reducing to one.
+    this.hide_widget_area();
+    this.init_default_widgets();
+    this.init_widget_area();
   },
 
   init_tree_view_settings: function () {

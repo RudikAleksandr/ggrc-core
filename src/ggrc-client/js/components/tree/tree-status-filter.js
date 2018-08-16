@@ -105,14 +105,13 @@ export default can.Component.extend({
       });
       vm.attr('filterStates', filterStates);
 
-      DisplayPrefs.getSingleton().then((displayPrefs) => {
-        vm.attr('displayPrefs', displayPrefs);
+      const displayPrefs = DisplayPrefs.getPreferences();
+      vm.attr('displayPrefs', displayPrefs);
 
-        let defaultStates = vm.getDefaultStates();
-        vm.buildSearchQuery(defaultStates);
-        vm.setStatesDropdown(defaultStates);
-        vm.setStatesRoute(defaultStates);
-      });
+      let defaultStates = vm.getDefaultStates();
+      vm.buildSearchQuery(defaultStates);
+      vm.setStatesDropdown(defaultStates);
+      vm.setStatesRoute(defaultStates);
     },
     'multiselect-dropdown multiselect:closed'(el, ev, selected) {
       ev.stopPropagation();

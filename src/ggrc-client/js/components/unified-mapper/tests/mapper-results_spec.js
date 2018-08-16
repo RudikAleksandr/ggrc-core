@@ -37,7 +37,7 @@ describe('mapper-results component', function () {
 
     beforeEach(function () {
       spyOn(DisplayPrefs, 'getSingleton')
-        .and.returnValue(can.Deferred().resolve(displayPrefs));
+        .and.returnValue(displayPrefs);
     });
 
     it('updates viewModel.displayPrefs', function () {

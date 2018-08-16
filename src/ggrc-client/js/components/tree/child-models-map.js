@@ -9,9 +9,8 @@ const childModelsMap = can.Map.extend({
   displayPrefs: null,
   container: {},
   init: function () {
-    DisplayPrefs.getSingleton().then(function (displayPrefs) {
-      this.attr('displayPrefs', displayPrefs);
-    }.bind(this));
+    const displayPrefs = DisplayPrefs.getPreferences();
+    this.attr('displayPrefs', displayPrefs);
   },
   getModels: function (parentType) {
     if (!this.attr('container.' + parentType)) {

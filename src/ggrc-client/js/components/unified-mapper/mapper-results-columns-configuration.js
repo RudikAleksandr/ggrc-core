@@ -34,9 +34,8 @@ export default can.Component.extend({
     displayPrefs: null,
     init() {
       this.initializeColumns();
-      DisplayPrefs.getSingleton().then((displayPrefs) => {
-        this.attr('displayPrefs', displayPrefs);
-      });
+      const displayPrefs = DisplayPrefs.getPreferences();
+      this.attr('displayPrefs', displayPrefs);
     },
     getModel() {
       return CMS.Models[this.attr('modelType')];

@@ -123,33 +123,32 @@ export default can.Control({
     if (content) {
       this.element.html(content);
     }
-    DisplayPrefs.getSingleton().then((displayPrefs) => {
-      if (this.wasDestroyed()) {
-        return;
-      }
+    const displayPrefs = DisplayPrefs.getPreferences();
+    if (this.wasDestroyed()) {
+      return;
+    }
 
-      this.display_prefs = displayPrefs;
+    this.display_prefs = displayPrefs;
 
-      this.options.attr('$header', this.element.find('.modal-header'));
-      this.options.attr('$content', this.element.find('.modal-body'));
-      this.options.attr('$footer', this.element.find('.modal-footer'));
-      this.on();
-      this.fetch_all()
-        .then(this.proxy('apply_object_params'))
-        .then(this.proxy('serialize_form'))
-        .then(() => {
-          if (!this.wasDestroyed()) {
-            this.element.trigger('preload');
-          }
-        })
-        .then(this.proxy('autocomplete'))
-        .then(function () {
-          if (!this.wasDestroyed()) {
-            this.options.afterFetch(this.element);
-            this.restore_ui_status_from_storage();
-          }
-        }.bind(this));
-    });
+    this.options.attr('$header', this.element.find('.modal-header'));
+    this.options.attr('$content', this.element.find('.modal-body'));
+    this.options.attr('$footer', this.element.find('.modal-footer'));
+    this.on();
+    this.fetch_all()
+      .then(this.proxy('apply_object_params'))
+      .then(this.proxy('serialize_form'))
+      .then(() => {
+        if (!this.wasDestroyed()) {
+          this.element.trigger('preload');
+        }
+      })
+      .then(this.proxy('autocomplete'))
+      .then(function () {
+        if (!this.wasDestroyed()) {
+          this.options.afterFetch(this.element);
+          this.restore_ui_status_from_storage();
+        }
+      }.bind(this));
   },
 
   apply_object_params: function () {

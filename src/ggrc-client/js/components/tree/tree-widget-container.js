@@ -622,20 +622,20 @@ export default can.Component.extend({
         (admin || !isAccepted) && (allowMapping || allowCreating));
     }
 
-    DisplayPrefs.getSingleton().then(function (displayPrefs) {
-      viewModel.attr('displayPrefs', displayPrefs);
+    const displayPrefs = DisplayPrefs.getPreferences();
 
-      if (parentInstance && 'status' in parentInstance) {
-        setAllowMapping();
-        parentInstance.bind('change', setAllowMapping);
-      } else {
-        viewModel.attr('allow_mapping_or_creating',
-          allowMapping || allowCreating);
-      }
+    viewModel.attr('displayPrefs', displayPrefs);
 
-      viewModel.setColumnsConfiguration();
-      viewModel.setSortingConfiguration();
-    });
+    if (parentInstance && 'status' in parentInstance) {
+      setAllowMapping();
+      parentInstance.bind('change', setAllowMapping);
+    } else {
+      viewModel.attr('allow_mapping_or_creating',
+        allowMapping || allowCreating);
+    }
+
+    viewModel.setColumnsConfiguration();
+    viewModel.setSortingConfiguration();
   },
   events: {
     '{viewModel.pageInfo} current': function () {
