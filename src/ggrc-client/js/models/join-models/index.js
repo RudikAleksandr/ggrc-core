@@ -5,6 +5,5 @@
 
 import './join';
 import './multitype-search-join';
-import './object-person';
 import './task-group-object';
 import './user-role';

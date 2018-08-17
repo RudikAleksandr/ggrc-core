@@ -482,7 +482,7 @@ viewModel = can.Map.extend({
     }
 
     function isPerson(instance) {
-      return _.includes(['ObjectPerson', 'UserRole'],
+      return _.includes(['UserRole'],
         instance.type);
     }
 
