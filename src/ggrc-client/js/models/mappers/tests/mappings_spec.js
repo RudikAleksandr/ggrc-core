@@ -28,7 +28,6 @@ describe('Mappings', function () {
         'Metric',
         'Objective',
         'OrgGroup',
-        'Person',
         'Policy',
         'Process',
         'Product',
@@ -91,30 +90,28 @@ describe('Mappings', function () {
 
   mappingRules = {
     AccessGroup: _.difference(filtered, ['AccessGroup']),
-    Assessment: _.difference(filtered, ['Audit', 'Person', 'Program', 'Project',
+    Assessment: _.difference(filtered, ['Audit', 'Program', 'Project',
       'TaskGroup', 'Workflow', 'Assessment', 'Document']),
-    AssessmentTemplate: _.difference(filtered, ['Audit', 'Person', 'Program',
+    AssessmentTemplate: _.difference(filtered, ['Audit', 'Program',
       'Project', 'TaskGroup', 'Workflow', 'Assessment', 'Document']),
-    Audit: _.difference(filtered, ['Audit', 'Person', 'Program', 'Project',
+    Audit: _.difference(filtered, ['Audit', 'Program', 'Project',
       'TaskGroup', 'Workflow', 'Assessment', 'Document']),
     Clause: _.difference(filtered, ['Clause']),
     Contract: _.difference(filtered, directives),
     Control: filtered,
-    CycleTaskGroupObjectTask: _.difference(filtered, ['Person',
+    CycleTaskGroupObjectTask: _.difference(filtered, [
       'TaskGroup', 'Workflow', 'Assessment', 'Document']),
     DataAsset: filtered,
     Evidence: ['Assessment', 'Audit'],
     Document: _.difference(filtered,
-      ['Audit', 'Assessment', 'Document', 'Person', 'Workflow', 'TaskGroup']),
+      ['Audit', 'Assessment', 'Document', 'Workflow', 'TaskGroup']),
     Facility: filtered,
     Issue: _.difference(filtered, [
-      'Audit', 'Person', 'Workflow', 'Assessment']),
+      'Audit', 'Workflow', 'Assessment']),
     Market: filtered,
     Metric: filtered,
     Objective: filtered,
     OrgGroup: filtered,
-    Person: _.difference(filtered, ['Person', 'Audit', 'TaskGroup',
-      'Workflow', 'Issue']),
     Policy: _.difference(filtered, directives),
     Process: filtered,
     Product: filtered,
@@ -129,7 +126,7 @@ describe('Mappings', function () {
     Requirement: filtered,
     Standard: _.difference(filtered, directives),
     System: filtered,
-    TaskGroup: _.difference(filtered, ['Audit', 'Person',
+    TaskGroup: _.difference(filtered, ['Audit',
       'TaskGroup', 'Workflow', 'Assessment', 'Document']),
     TechnologyEnvironment: filtered,
     Threat: filtered,
@@ -146,7 +143,7 @@ describe('Mappings', function () {
   });
 
   describe('getMappingTypes() method', function () {
-    let EXPECTED_GROUPS = ['entities', 'business', 'governance'];
+    let EXPECTED_GROUPS = ['business', 'governance'];
     let modelsForTests = _.difference(allTypes, [
       'CycleTaskEntry',
       'CycleTaskGroup',
