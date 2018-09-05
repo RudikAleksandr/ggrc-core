@@ -114,11 +114,19 @@ module.exports = function (env) {
         loader: 'raw-loader',
       }, {
         test: /\.js$/,
-        exclude: /(node_modules)/,
+        exclude: /(node_modules)|[_]spec\.js/,
         loader: 'babel-loader',
         query: {
           cacheDirectory: true,
         },
+      }, {
+        test: /[_]spec\.js$/,
+        include: /(src)/,
+        loader: 'isparta-loader',
+      }, {
+        test: /[_]spec\.js$/,
+        include: /(src)/,
+        loader: 'babel-loader',
       }, {
         test: /\.md/,
         use: [
