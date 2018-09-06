@@ -64,7 +64,9 @@
             {{^if mappingItems.length}}
             <button class="btn btn-small btn-white" ($click)="addFilterAttribute">Add Attribute</button>
             {{/if}}
+            {{^if isEmptyMappings}}
             <button class="btn btn-small btn-white" ($click)="addMappingFilter">Add Mapping Filter</button>
+            {{/if}}
           </div>
           <div class="object-controls__actions--right">
             <button type="reset" class="btn btn-small btn-white" {{#if is_loading}}disabled="disabled"{{/if}} ($click)="resetFilters()">Reset</button>

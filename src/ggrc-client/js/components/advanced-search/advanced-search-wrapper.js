@@ -6,6 +6,7 @@
 import * as StateUtils from '../../plugins/utils/state-utils';
 import {getColumnsForModel} from '../../plugins/utils/tree-view-utils';
 import * as AdvancedSearch from '../../plugins/utils/advanced-search-utils';
+import Mappings from '../../models/mappers/mappings';
 
 export default can.Component.extend({
   tag: 'advanced-search-wrapper',
@@ -16,6 +17,12 @@ export default can.Component.extend({
           return StateUtils.hasFilter(this.attr('modelName'));
         },
       },
+      isEmptyMappings: {
+        get: function () {
+          const canonicalMappings = Mappings.get_canonical_mappings_for(this.attr('modelName'));
+          return Object.keys(canonicalMappings).length === 0;
+        },
+      }
     },
     modelName: null,
     modelDisplayName: null,
