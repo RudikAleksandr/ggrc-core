@@ -33,13 +33,13 @@ Copyright (C) 2018 Google Inc.
                                     {is-edit-icon-denied}="isEditIconDenied"
                                     (set-edit-mode-inline)="confirmEdit()">
                                         <h3 class="pane-header__title-name">{{instance.title}}</h3>
-                                        <div class="state-value {{addclass 'state' instance.status}} {{#if instance.verified}}verified{{/if}}">
-                                            {{instance.status}}
+                                        <div class="state-value {{addclass 'state' status}} {{#if instance.verified}}verified{{/if}}">
+                                            {{status}}
                                         </div>
                                         {{#if instance.archived}}
                                             <span class="state-value state-archived">Archived</span>
                                         {{/if}}
-                                        {{#eq instance.status 'Completed'}}
+                                        {{#eq status 'Completed'}}
                                             {{#if instance.verified}}
                                                 <i class="fa fa-check-circle green verified-icon"
                                                     rel="tooltip"
@@ -91,7 +91,7 @@ Copyright (C) 2018 Google Inc.
                         {{/if}}
                         {{/is_info_pin}}
 
-                        {{#if_in instance.status "Not Started,In Progress"}}
+                        {{#if_in status "Not Started,In Progress"}}
                         {{#is_allowed 'update' instance context='for'}}
                             <li>
                                 {{#unless instance.archived}}
@@ -126,8 +126,8 @@ Copyright (C) 2018 Google Inc.
                         {{#is_allowed 'update' instance context='for'}}
                             {{^if instance.archived}}
                                 <li>
-                                    {{^if_equals instance.status 'Rework Needed'}}
-                                        {{#if_equals instance.status 'Deprecated'}}
+                                    {{^if_equals status 'Rework Needed'}}
+                                        {{#if_equals status 'Deprecated'}}
                                             {{! Set default state }}
                                             <object-change-state
                                                 {to-state}="initialState"

@@ -193,6 +193,7 @@ export default can.Component.extend({
         open: false,
       },
     },
+    status: undefined,
     pubsub,
     _verifierRoleId: undefined,
     isUpdatingRelatedItems: false,
@@ -456,6 +457,7 @@ export default can.Component.extend({
       this.attr('formFields',
         convertValuesToFormFields(cavs)
       );
+      this.attr('status', this.attr('instance.status'));
     },
     reinitFormFields() {
       const cavs = getCustomAttributes(
@@ -490,6 +492,7 @@ export default can.Component.extend({
     onStateChange: function (event) {
       let isUndo = event.undo;
       let newStatus = event.state;
+      let viewModel = this;
       let instance = this.attr('instance');
       let initialState = this.attr('initialState');
       let deprecatedState = this.attr('deprecatedState');
@@ -513,18 +516,15 @@ export default can.Component.extend({
       if (isUndo) {
         instance.attr('previousStatus', undefined);
       } else {
-        instance.attr('previousStatus', instance.attr('status'));
+        instance.attr('previousStatus', this.attr('status'));
       }
       this.attr('isUpdatingState', true);
 
       return this.attr('deferredSave').execute(() => {
-        if (isUndo) {
-          instance.attr('status', previousStatus);
-        } else {
-          instance.attr('status', newStatus);
-        }
+        const status = isUndo ? previousStatus : newStatus;
+        instance.attr('status', status);
 
-        if (instance.attr('status') === 'In Review' && !isUndo) {
+        if (status === 'In Review' && !isUndo) {
           $(document.body).trigger('ajax:flash',
             {hint: 'The assessment is complete. ' +
             'The verifier may revert it if further input is needed.'});
@@ -538,6 +538,7 @@ export default can.Component.extend({
         stopFn();
       }).fail(resetStatusOnConflict).always(() => {
         this.attr('isUpdatingState', false);
+        viewModel.attr('status', instance.attr('status'));
       });
     },
     saveGlobalAttributes: function (event) {
