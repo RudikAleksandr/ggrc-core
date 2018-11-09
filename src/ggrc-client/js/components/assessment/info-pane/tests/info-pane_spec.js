@@ -1248,6 +1248,15 @@ describe('assessment-info-pane component', () => {
       ).toEqual(results);
       expect(caUtils.convertValuesToFormFields).toHaveBeenCalledWith(results);
     });
+
+    it('set "status" field on value "instance.status"', function () {
+      const status = 'In progress';
+      vm.attr('instance.status', status);
+
+      vm.initializeFormFields();
+
+      expect(vm.attr('status')).toEqual(status);
+    });
   });
 
   describe('initGlobalAttributes() method', () => {
