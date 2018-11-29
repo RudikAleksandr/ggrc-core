@@ -910,15 +910,3 @@ export default can.Model('can.Model.Cacheable', {
     return RefreshQueue.refresh_all(this, props, true);
   },
 });
-
-/* TODO: hack on can.Observe should be removed or at least placed outside of Cacheable Model Class */
-let _oldAttr = can.Observe.prototype.attr;
-can.Observe.prototype.attr = function (key, val) {
-  if (key instanceof can.Observe) {
-    if (arguments[0] === this) {
-      return this;
-    }
-    return _oldAttr.apply(this, [key.serialize()]);
-  }
-  return _oldAttr.apply(this, arguments);
-};

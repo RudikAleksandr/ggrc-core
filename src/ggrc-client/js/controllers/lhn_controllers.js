@@ -402,7 +402,7 @@ can.Control.extend({
         this.options.filter_params.attr(model.default_lhn_filters);
       }
     });
-    this.options.filter_params.attr(savedFilters);
+    this.options.filter_params.attr(savedFilters.serialize());
     this.options.loaded_lists = [];
     this.run_search(initialTerm, initialParams);
 
@@ -764,7 +764,7 @@ can.Control.extend({
       self.options.counts.removeAttr(key);
     });
     // Set the new counts
-    self.options.counts.attr(searchResult.counts);
+    self.options.counts.attr(searchResult.counts.serialize());
 
     can.each(this.get_lists(), function ($list) {
       let modelName;
