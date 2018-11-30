@@ -2,6 +2,9 @@
     Copyright (C) 2018 Google Inc.
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 */
+
+import {reify, hasReify} from '../plugins/utils/reify-utils';
+
 (function ($, can) {
   // a few core CanJS extensions below.
   // Core validation for fields not being "blank", i.e.
@@ -22,7 +25,7 @@
   can.Model.validateContact =
     can.Map.validateContact = function (attrNames, options) {
       this.validate(attrNames, options, function (newVal, prop) {
-        let reifiedContact = newVal && newVal.reify ? newVal.reify() : false;
+        let reifiedContact = newVal && hasReify(newVal) ? reify(newVal) : false;
         let hasEmail = reifiedContact ? reifiedContact.email : false;
         options = options || {};
 

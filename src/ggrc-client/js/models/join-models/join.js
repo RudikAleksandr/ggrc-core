@@ -7,6 +7,7 @@ import RefreshQueue from '../refresh_queue';
 import Cacheable from '../cacheable';
 import Stub from '../stub';
 import {getInstance} from '../../plugins/utils/models-utils';
+import {reify, hasReify} from '../../plugins/utils/reify-utils';
 
 export default Cacheable('can.Model.Join', {
   join_keys: null,
@@ -25,8 +26,8 @@ export default Cacheable('can.Model.Join', {
         can.each(instance.constructor.join_keys, function (cls, key) {
           let obj;
           if (instance[key]) {
-            if (instance[key].reify && instance[key].reify().refresh) {
-              obj = instance[key].reify();
+            if (hasReify(instance[key]) && reify(instance[key]).refresh) {
+              obj = reify(instance[key]);
             } else {
               obj = cls.findInCacheById(instance[key].id);
             }

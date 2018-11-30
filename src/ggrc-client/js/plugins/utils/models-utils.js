@@ -183,31 +183,6 @@ const getModelByType = (type) => {
   return allModels[type];
 };
 
-
-can.Observe.prototype.reify = function () {
-  let type;
-  let model;
-
-  if (this instanceof can.Model) {
-    return this;
-  }
-
-  type = this.type;
-  model = allModels[type];
-
-  if (!model) {
-    console.warn('`reify()` called with unrecognized type', this);
-  } else {
-    return model.model(this);
-  }
-};
-
-can.Observe.List.prototype.reify = function () {
-  return new can.Observe.List(can.map(this, function (obj) {
-    return obj.reify();
-  }));
-};
-
 /**
  * Returns models with custom roles
  * @return {Array} list of models

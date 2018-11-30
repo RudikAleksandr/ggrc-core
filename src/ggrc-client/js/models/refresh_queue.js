@@ -6,6 +6,7 @@
 import Mappings from './mappers/mappings';
 import * as businessModels from './business-models';
 import * as serviceModels from './service-models';
+import {reify} from '../plugins/utils/reify-utils';
 
 const allModels = Object.assign({}, businessModels, serviceModels);
 
@@ -252,7 +253,7 @@ const RefreshQueue = can.Construct({
     if (deferreds.length) {
       $.when(...deferreds).then(function () {
         self.deferred.resolve(can.map(self.objects, function (obj) {
-          return obj.reify();
+          return reify(obj);
         }));
       }, function () {
         self.deferred.reject(...arguments);

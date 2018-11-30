@@ -5,6 +5,7 @@
 
 import Cacheable from '../cacheable';
 import {getRole} from '../../plugins/utils/acl-utils';
+import {reify} from '../../plugins/utils/reify-utils';
 import accessControlList from '../mixins/access-control-list';
 import uniqueTitle from '../mixins/unique-title';
 import caUpdate from '../mixins/ca-update';
@@ -152,7 +153,7 @@ export default Cacheable('CMS.Models.Audit', {
     let _super = this._super;
     let args = arguments;
     if (!this.context || !this.context.id) {
-      return this.program.reify().refresh().then(function (program) {
+      return reify(this.program).refresh().then(function (program) {
         this.attr('context', program.context);
         return _super.apply(this, args);
       }.bind(this));

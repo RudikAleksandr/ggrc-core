@@ -9,6 +9,7 @@ import {getRole} from '../../plugins/utils/acl-utils';
 import {REFRESH_SUB_TREE} from '../../events/eventTypes';
 import {getPageType} from '../../plugins/utils/current-page-utils';
 import {getClosestWeekday} from '../../plugins/utils/date-utils';
+import {reify, hasReify} from '../../plugins/utils/reify-utils';
 import timeboxed from '../mixins/timeboxed';
 import isOverdue from '../mixins/is-overdue';
 import accessControlList from '../mixins/access-control-list';
@@ -28,12 +29,14 @@ function populateFromWorkflow(form, workflow) {
     form.removeAttr('cycle_task_group');
     return;
   }
-  if (workflow.reify) {
-    workflow = workflow.reify();
+
+  if (hasReify(workflow)) {
+    workflow = reify(workflow);
   } else {
     console.warn('Can\'t reify workflow');
     return;
   }
+
   if (typeof workflow.cycles === undefined || !workflow.cycles) {
     $(document.body).trigger(
       'ajax:flash',
@@ -259,9 +262,9 @@ export default Cacheable('CMS.Models.CycleTaskGroupObjectTask', {
         return;
       }
     } else {
-      cycle = form.cycle.reify();
+      cycle = reify(form.cycle);
       if (!_.isUndefined(cycle.workflow)) {
-        form.attr('workflow', cycle.workflow.reify());
+        form.attr('workflow', reify(cycle.workflow));
       }
     }
   },
@@ -281,7 +284,7 @@ export default Cacheable('CMS.Models.CycleTaskGroupObjectTask', {
    *   false otherwise
    */
   responseOptionsEditable: function () {
-    let cycle = this.attr('cycle').reify();
+    let cycle = reify(this.attr('cycle'));
     let status = this.attr('status');
 
     return cycle.attr('is_current') &&

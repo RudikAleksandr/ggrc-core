@@ -4,6 +4,7 @@
  */
 
 import RefreshQueue from '../refresh_queue';
+import {reify} from '../../plugins/utils/reify-utils';
 
 (function (GGRC, can) {
   /*  ProxyListLoader
@@ -70,11 +71,11 @@ import RefreshQueue from '../refresh_queue';
       let optionModel = CMS.Models[this.option_model_name];
 
       return (mapping.constructor === model && mapping[this.object_attr] &&
-      (mapping[this.object_attr].reify() === binding.instance ||
-      (mapping[this.object_attr].reify().constructor === objectModel &&
+      (reify(mapping[this.object_attr]) === binding.instance ||
+      (reify(mapping[this.object_attr]).constructor === objectModel &&
       mapping[this.object_attr].id === binding.instance.id)) &&
       (!optionModel || (mapping[this.option_attr] &&
-      mapping[this.option_attr].reify() instanceof optionModel)));
+      reify(mapping[this.option_attr]) instanceof optionModel)));
     },
     filter_and_insert_instances_from_mappings: function (binding, mappings) {
       let self = this;
@@ -109,7 +110,7 @@ import RefreshQueue from '../refresh_queue';
     },
     get_result_from_mapping: function (binding, mapping) {
       return this.make_result({
-        instance: mapping[this.option_attr].reify(),
+        instance: reify(mapping[this.option_attr]),
         mappings: [{
           instance: mapping,
           mappings: [{
@@ -122,7 +123,7 @@ import RefreshQueue from '../refresh_queue';
       });
     },
     get_instance_from_mapping: function (binding, mapping) {
-      return mapping[this.option_attr] && mapping[this.option_attr].reify();
+      return mapping[this.option_attr] && reify(mapping[this.option_attr]);
     },
     find_result_from_mapping: function (binding, mapping) {
       let mapInd;
@@ -147,7 +148,7 @@ import RefreshQueue from '../refresh_queue';
 
       // These properties only exist if the user has read access
       if (binding.instance[objectJoinAttr]) {
-        can.each(binding.instance[objectJoinAttr].reify(), function (mapping) {
+        can.each(reify(binding.instance[objectJoinAttr]), function (mapping) {
           refreshQueue.enqueue(mapping);
         });
       }

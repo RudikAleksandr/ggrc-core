@@ -7,6 +7,7 @@ import template from './mapping-tree-view.mustache';
 import '../object-list-item/editable-document-object-list-item';
 import {notifierXHR} from '../../plugins/utils/notifiers-utils';
 import Mappings from '../../models/mappers/mappings';
+import {reify} from '../../plugins/utils/reify-utils';
 
 export default can.Component.extend({
   tag: 'mapping-tree-view',
@@ -98,7 +99,7 @@ export default can.Component.extend({
           })
           .then(function () {
             if (mapping.documentable) {
-              return mapping.documentable.reify();
+              return reify(mapping.documentable);
             }
           })
           .fail(notifierXHR('error'));

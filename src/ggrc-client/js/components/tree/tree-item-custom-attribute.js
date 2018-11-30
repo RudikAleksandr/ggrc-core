@@ -6,6 +6,7 @@
 import template from './templates/tree-item-custom-attribute.mustache';
 import {CONTROL_TYPE} from '../../plugins/utils/control-utils';
 import {formatDate} from '../../plugins/utils/date-utils';
+import {reify} from '../../plugins/utils/reify-utils';
 
 const formatValueMap = {
   [CONTROL_TYPE.CHECKBOX](caObject) {
@@ -21,9 +22,7 @@ const formatValueMap = {
   [CONTROL_TYPE.PERSON](caObject, options) {
     const attr = caObject.attributeObject;
     return options.fn(options.contexts.add({
-      object: attr ?
-        attr.reify() :
-        null,
+      object: attr ? reify(attr) : null,
     }));
   },
 };

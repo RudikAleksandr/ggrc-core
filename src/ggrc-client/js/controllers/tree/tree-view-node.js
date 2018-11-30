@@ -12,6 +12,7 @@ import {
   getPageType,
 } from '../../plugins/utils/current-page-utils';
 import TreeViewOptions from './tree-view-options';
+import {reify} from '../../plugins/utils/reify-utils';
 
 function _firstElementChild(el) {
   let i;
@@ -81,7 +82,7 @@ export default can.Control.extend({
   '{instance} custom_attribute_values':
     function (object, ev, newVal, oldVal) {
       function getValues(cav) {
-        return _.map(cav.reify(), 'attribute_value');
+        return _.map(reify(cav), 'attribute_value');
       }
       if ((!oldVal || !newVal) || (oldVal.length === newVal.length &&
         _.difference(getValues(oldVal), getValues(newVal)).length)) {

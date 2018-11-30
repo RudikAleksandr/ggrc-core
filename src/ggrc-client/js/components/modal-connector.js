@@ -14,6 +14,7 @@ import {
   DEFERRED_MAP_OBJECTS,
 } from '../events/eventTypes';
 import {getPageInstance} from '../plugins/utils/current-page-utils';
+import {reify} from '../plugins/utils/reify-utils';
 
 /*
  Below this line we're defining a can.Component, which is in this file
@@ -167,10 +168,10 @@ export default can.Component.extend({
         item.attr('class', snapshotObject.class);
         item.attr('snapshot_object_class', 'snapshot-object');
         item.attr('viewLink', snapshotObject.originalLink);
-      } else if (!isSnapshotType(item) && item.reify) {
+      } else if (!isSnapshotType(item) && reify(item)) {
         // add full item object from cache
         // if it isn't snapshot
-        item = item.reify();
+        item = reify(item);
       }
 
       this.attr('list').push(item);

@@ -3,10 +3,11 @@
  Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
  */
 
+import {reify} from '../../plugins/utils/reify-utils';
 
 /**
    * Util methods for integration with Dashboards.
-   */
+*/
 let DASHBOARD_CA_TYPES = ['text'];
 
 function getCaConfiguration() {
@@ -75,7 +76,7 @@ function getDashboardsFromCas(instance, caNameRegexp, caValueRegexp) {
   }
 
   cavs = cavs.map(function (cav) {
-    return cav.custom_attribute_id ? cav : cav.reify();
+    return cav.custom_attribute_id ? cav : reify(cav);
   });
 
   return cads.reduce(function (result, cad) {

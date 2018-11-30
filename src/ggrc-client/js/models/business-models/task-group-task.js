@@ -11,6 +11,7 @@ import {
   getDate,
 } from '../../plugins/utils/date-utils';
 import {getPageInstance} from '../../plugins/utils/current-page-utils';
+import {reify} from '../../plugins/utils/reify-utils';
 import contactable from '../mixins/contactable';
 import timeboxed from '../mixins/timeboxed';
 import accessControlList from '../mixins/access-control-list';
@@ -90,7 +91,7 @@ export default Cacheable('CMS.Models.TaskGroupTask', {
 
     this.bind('created', function (ev, instance) {
       if (instance instanceof that) {
-        if (instance.task_group.reify().selfLink) {
+        if (reify(instance.task_group).selfLink) {
           instance._refresh_workflow_people();
         }
       }
@@ -105,10 +106,10 @@ export default Cacheable('CMS.Models.TaskGroupTask', {
     this.bind('destroyed', function (ev, instance) {
       let taskGroup;
       if (instance instanceof that) {
-        taskGroup = instance.task_group && instance.task_group.reify();
+        taskGroup = instance.task_group && reify(instance.task_group);
         if (taskGroup
           && taskGroup.selfLink) {
-          instance.task_group.reify().refresh();
+          reify(instance.task_group).refresh();
           instance._refresh_workflow_people();
         }
       }
@@ -136,9 +137,9 @@ export default Cacheable('CMS.Models.TaskGroupTask', {
     //  TaskGroupTask assignment may add mappings and role assignments in
     //  the backend, so ensure these changes are reflected.
     let workflow;
-    let taskGroup = this.task_group.reify();
+    let taskGroup = reify(this.task_group);
     if (taskGroup.selfLink) {
-      workflow = taskGroup.workflow.reify();
+      workflow = reify(taskGroup.workflow);
       return workflow.refresh();
     }
   },

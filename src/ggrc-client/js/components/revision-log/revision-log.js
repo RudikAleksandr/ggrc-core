@@ -15,6 +15,7 @@ import Person from '../../models/business-models/person';
 import Stub from '../../models/stub';
 import Mappings from '../../models/mappers/mappings';
 import {formatDate} from '../../plugins/utils/date-utils';
+import {reify, hasReify} from '../../plugins/utils/reify-utils';
 
 const EMPTY_DIFF_VALUE = '—';
 
@@ -161,8 +162,8 @@ export default can.Component.extend({
               let reify = function (revision) {
                 _.forEach(['modified_by', 'source', 'destination'],
                   function (field) {
-                    if (revision[field] && revision[field].reify) {
-                      revision.attr(field, revision[field].reify());
+                    if (revision[field] && hasReify(revision[field])) {
+                      revision.attr(field, reify(revision[field]));
                     }
                   });
                 return revision;
@@ -651,7 +652,7 @@ export default can.Component.extend({
       }
 
       if (object instanceof Stub) {
-        object = object.reify();
+        object = reify(object);
       }
 
       displayName = object.display_name() || object.description;
@@ -870,7 +871,7 @@ export default can.Component.extend({
       const review = this.attr('instance.review');
 
       if (review) {
-        this.attr('review', review.reify());
+        this.attr('review', reify(review));
       }
     },
   },

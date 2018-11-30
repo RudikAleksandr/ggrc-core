@@ -13,6 +13,8 @@ import '../../diff/instance-list-fields-diff';
 import template from './templates/related-proposals-item.mustache';
 import {getPersonInfo} from '../../../plugins/ggrc_utils';
 import {getFormattedLocalDate} from '../../../plugins/utils/date-utils';
+import {reify, hasReify} from '../../../plugins/utils/reify-utils';
+
 const tag = 'related-proposals-item';
 
 export default can.Component.extend({
@@ -88,11 +90,14 @@ export default can.Component.extend({
       return text;
     },
     getPersonEmail(person) {
-      if (!person || !person.reify) {
+      const isCanObject = person instanceof can.Map ||
+                          person instanceof can.List;
+
+      if (!person || !hasReify(person)) {
         return '';
       }
 
-      return person.reify().email;
+      return reify(person).email;
     },
     buildTooltipMessage(startWord, email, date, comment) {
       if (!comment) {

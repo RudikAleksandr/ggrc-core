@@ -3,6 +3,8 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 */
 
+import {reify} from '../../plugins/utils/reify-utils';
+
 export default can.Component.extend({
   tag: 'review-state',
   viewModel: {
@@ -22,7 +24,7 @@ export default can.Component.extend({
            * (was previously received from the server), in other case - from instance.
            * */
           if (review) {
-            state = review.reify().attr('status');
+            state = reify(review).attr('status');
           }
 
           return state || instance.attr('review_status');

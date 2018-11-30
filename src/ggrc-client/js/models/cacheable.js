@@ -10,6 +10,7 @@ import {
   isSnapshot,
   setAttrs,
 } from '../plugins/utils/snapshot-utils';
+import {reify, hasReify} from '../plugins/utils/reify-utils';
 import resolveConflict from './conflict-resolution/conflict-resolution';
 import PersistentNotifier from '../plugins/persistent-notifier';
 import RefreshQueue from './refresh_queue';
@@ -800,7 +801,7 @@ export default can.Model('can.Model.Cacheable', {
     * Set up a deferred join object deletion when this object is updated.
     */
   mark_for_deletion: function (joinAttr, obj, extraAttrs, options) {
-    obj = obj.reify ? obj.reify() : obj;
+    obj = hasReify(obj) ? reify(obj) : obj;
 
     this.remove_duplicate_pending_joins(obj);
     this._pending_joins.push({
@@ -815,7 +816,7 @@ export default can.Model('can.Model.Cacheable', {
     * Set up a deferred join object creation when this object is updated.
     */
   mark_for_addition: function (joinAttr, obj, extraAttrs, options) {
-    obj = obj.reify ? obj.reify() : obj;
+    obj = hasReify(obj) ? reify(obj) : obj;
     extraAttrs = _.isEmpty(extraAttrs) ? undefined : extraAttrs;
 
     this.remove_duplicate_pending_joins(obj);

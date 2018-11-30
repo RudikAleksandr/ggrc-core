@@ -7,6 +7,7 @@ import {getModelInstance} from '../../plugins/utils/models-utils';
 import {REFRESH_PROPOSAL_DIFF} from '../../events/eventTypes';
 import DiffBaseVM from './diff-base-vm';
 import template from './templates/instance-diff-items.mustache';
+import {reify} from '../../plugins/utils/reify-utils';
 const tag = 'instance-mapping-fields-diff';
 
 const viewModel = DiffBaseVM.extend({
@@ -50,7 +51,7 @@ const viewModel = DiffBaseVM.extend({
   },
   getCurrentValue(currentValueStub) {
     // current value should be in cache
-    return currentValueStub ? currentValueStub.reify() : null;
+    return currentValueStub ? reify(currentValueStub) : null;
   },
   async getModifiedValue(modifiedValueStub) {
     let id;

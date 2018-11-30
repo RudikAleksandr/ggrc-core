@@ -28,6 +28,7 @@ import Search from './models/service-models/search';
 import Person from './models/business-models/person';
 import modalModels from './models/modal-models';
 import {isScopeModel} from './plugins/utils/models-utils';
+import {reify, hasReify} from './plugins/utils/reify-utils';
 import Mappings from './models/mappers/mappings';
 import {
   getFormattedLocalDate,
@@ -597,9 +598,9 @@ Mustache.registerHelper('using', function (options) {
       if (options.hash.hasOwnProperty(i)) {
         arg = options.hash[i];
         arg = Mustache.resolve(arg);
-        if (arg && arg.reify) {
-          refreshQueue.enqueue(arg.reify());
-          frame.attr(i, arg.reify());
+        if (arg && hasReify(arg)) {
+          refreshQueue.enqueue(reify(arg));
+          frame.attr(i, reify(arg));
         } else {
           frame.attr(i, arg);
         }
@@ -653,12 +654,12 @@ Mustache.registerHelper('person_roles', function (person, scope, options) {
   }
 
   person = Mustache.resolve(person);
-  person = person.reify();
+  person = reify(person);
   refreshQueue.enqueue(person);
   // Force monitoring of changes to `person.user_roles`
   person.attr('user_roles');
   refreshQueue.trigger().then(function () {
-    let userRoles = person.user_roles.reify();
+    let userRoles = reify(person.user_roles);
     let userRolesRefreshQueue = new RefreshQueue();
 
     userRolesRefreshQueue.enqueue(userRoles);
@@ -667,7 +668,7 @@ Mustache.registerHelper('person_roles', function (person, scope, options) {
         can.makeArray(userRoles),
         function (userRole) {
           if (userRole.role) {
-            return userRole.role.reify();
+            return reify(userRole.role);
           }
         });
       let rolesRefreshQueue = new RefreshQueue();
@@ -1011,7 +1012,7 @@ Mustache.registerHelper('default_audit_title', function (instance, options) {
     return;
   }
 
-  program = program.reify();
+  program = reify(program);
   new RefreshQueue().enqueue(program).trigger().then(function () {
     title = (new Date()).getFullYear() + ': ' + program.title + ' - Audit';
 
