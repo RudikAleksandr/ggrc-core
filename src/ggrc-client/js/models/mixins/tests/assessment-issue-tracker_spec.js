@@ -7,6 +7,7 @@ import * as issueTrackerUtils from '../../../plugins/utils/issue-tracker-utils';
 import * as queryApiUtils from '../../../plugins/utils/query-api-utils';
 import {makeFakeInstance} from '../../../../js_specs/spec_helpers';
 import * as CurrentPageUtils from '../../../plugins/utils/current-page-utils';
+import * as Reify from '../../../plugins/utils/reify-utils';
 import assessmentIssueTracker from '../assessment-issue-tracker';
 import Assessment from '../../business-models/assessment';
 
@@ -31,6 +32,7 @@ describe('assessmentIssueTracker mixin', () => {
     it('should call "initIssueTrackerForAssessment" for audit', () => {
       let dfd = new can.Deferred();
       dfd.resolve(audit);
+      spyOn(Reify, 'reify');
       spyOn(asmtProto, 'ensureParentAudit').and.returnValue(dfd);
       spyOn(asmtProto, 'initIssueTrackerForAssessment');
       makeFakeInstance({model: Assessment})({type: 'Assessment'});

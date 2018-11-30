@@ -6,6 +6,7 @@
 import {getComponentVM} from '../../../../js_specs/spec_helpers';
 import Component from '../external-data-autocomplete';
 import * as businessModels from '../../../models/business-models';
+import * as Reify from '../../../plugins/utils/reify-utils';
 
 describe('external-data-autocomplete component', () => {
   let viewModel;
@@ -262,11 +263,12 @@ describe('external-data-autocomplete component', () => {
       });
 
       it('calls model reify', (done) => {
-        model.reify = jasmine.createSpy('reify').and.returnValue(model);
+        spyOn(Reify, 'reify').and.returnValue(model);
+        spyOn(Reify, 'hasReify').and.returnValue(true);
 
         viewModel.createOrGet(item)
-          .then((resultModel) => {
-            expect(model.reify).toHaveBeenCalled();
+          .then(() => {
+            expect(Reify.reify).toHaveBeenCalled();
             done();
           });
       });
