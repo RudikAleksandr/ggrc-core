@@ -384,7 +384,7 @@ can.Control.extend({
     //  to trigger the search.
     let frag = can.view(templatePath, lhnPrefs);
     let initialParams = {};
-    let savedFilters = lhnPrefs.filter_params;
+    let savedFilters = lhnPrefs.filter_params || new can.Map();
 
     this.element.html(frag);
     this.post_init();
@@ -403,7 +403,8 @@ can.Control.extend({
         this.options.filter_params.attr(model.default_lhn_filters);
       }
     });
-    this.options.filter_params.attr(savedFilters);
+
+    this.options.filter_params.attr(savedFilters.serialize());
     this.options.loaded_lists = [];
     this.run_search(initialTerm, initialParams);
 
@@ -763,7 +764,7 @@ can.Control.extend({
       self.options.counts.removeAttr(key);
     });
     // Set the new counts
-    self.options.counts.attr(searchResult.counts);
+    self.options.counts.attr(searchResult.counts.serialize());
 
     this.get_lists().forEach(function ($list) {
       let modelName;
