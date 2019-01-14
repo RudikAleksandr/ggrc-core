@@ -6,6 +6,7 @@
 import ModalsController from '../modals/modals_controller';
 import * as NotifiersUtils from '../../plugins/utils/notifiers-utils';
 import Person from '../../models/business-models/person';
+import * as ReifyUtils from '../../plugins/utils/reify-utils';
 
 describe('ModalsController', function () {
   let Ctrl; // the controller under test
@@ -72,7 +73,7 @@ describe('ModalsController', function () {
           refresh: jasmine.createSpy().and.returnValue(dfdRefresh.promise()),
         });
 
-        spyOn(partialUser, 'reify').and.returnValue(partialUser);
+        spyOn(ReifyUtils, 'reify').and.returnValue(partialUser);
         Person.cache[userId] = partialUser;
 
         init();
@@ -94,7 +95,7 @@ describe('ModalsController', function () {
           refresh: jasmine.createSpy().and.returnValue(dfdRefresh.promise()),
         });
 
-        spyOn(fullUser, 'reify').and.returnValue(fullUser);
+        spyOn(ReifyUtils, 'reify').and.returnValue(fullUser);
         Person.cache[userId] = fullUser;
 
         init();

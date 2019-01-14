@@ -5,6 +5,7 @@
 
 import CycleTaskGroupObjectTask from '../cycle-task-group-object-task';
 import Workflow from '../workflow';
+import Cycle from '../cycle';
 import {makeFakeInstance} from '../../../../js_specs/spec_helpers';
 
 describe('CycleTaskGroupObjectTask model', function () {
@@ -43,7 +44,7 @@ describe('CycleTaskGroupObjectTask model', function () {
         },
       });
 
-      spyOn(instance.cycle, 'reify').and.returnValue(instance.cycle);
+      spyOn(Cycle, 'findInCacheById').and.returnValue(instance.cycle);
 
       method = Model.prototype.responseOptionsEditable.bind(instance);
     });
@@ -114,6 +115,7 @@ describe('CycleTaskGroupObjectTask model', function () {
         cycles: cycles,
       });
 
+      spyOn(Workflow, 'findInCacheById').and.returnValue(workflow);
       spyOn(workflow, 'refresh_all').and
         .returnValue($.Deferred().resolve(cycles));
 

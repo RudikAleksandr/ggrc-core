@@ -6,7 +6,7 @@
 import Component from '../deferred-mapper';
 import {getComponentVM} from '../../../js_specs/spec_helpers';
 
-
+import * as ReifyUtils from '../../plugins/utils/reify-utils';
 import * as MapperUtils from '../../plugins/utils/mapper-utils';
 import {
   REFRESH_MAPPING,
@@ -453,11 +453,13 @@ describe('deferred-mapper component', function () {
 
     it('pushes reified "item" into "list" if "item" is not of snapshot type',
       () => {
-        isSnapshotTypeSpy.and.returnValue(false);
         let reifiedItem = {id: 1};
-        let item = {
-          reify: jasmine.createSpy('itemReify').and.returnValue(reifiedItem),
-        };
+        let item = new can.Map({});
+
+        isSnapshotTypeSpy.and.returnValue(false);
+        spyOn(ReifyUtils, 'isReifiable').and.returnValue(true);
+        spyOn(ReifyUtils, 'reify').and.returnValue(reifiedItem);
+
         vm.attr('list', []);
 
         vm.addListItem(item);
