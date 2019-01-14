@@ -58,11 +58,11 @@
 <div class="flex-box item-actions">
   <div class="request-control">
      <cycle-end-cycle cycle="instance">
-       {{#is_allowed 'update' instance.workflow.reify}}
+       {{#isAllowedToUpdateWorkflow}}
          {{#if instance.is_current}}
            <button type="button" class="btn btn-white btn-small end-cycle">End Cycle</button>
          {{/if}}
-       {{/is_allowed}}
+       {{/isAllowedToUpdateWorkflow}}
      </cycle-end-cycle>
   </div>
 </div>

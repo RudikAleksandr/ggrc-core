@@ -10,6 +10,7 @@ import {
   batchRequests,
 } from '../../plugins/utils/query-api-utils';
 import {getPageInstance} from '../../plugins/utils/current-page-utils';
+import Audit from '../business-models/audit';
 
 export default Mixin(
   issueTrackerUtils.issueTrackerStaticFields,
@@ -29,12 +30,12 @@ export default Mixin(
       issueTrackerUtils.checkWarnings(this);
     },
     trackAuditUpdates() {
-      let audit = this.attr('audit') && this.attr('audit').reify();
+      let audit = this.attr('audit') && Audit.model(this.attr('audit'));
       if (!audit) {
         return;
       }
 
-      audit.reify().bind('updated', (event) => {
+      audit.bind('updated', (event) => {
         this.attr('audit', event.target);
         this.initIssueTrackerForAssessment();
       });

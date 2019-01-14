@@ -5,6 +5,7 @@
 
 import Cacheable from '../cacheable';
 import Workflow from './workflow';
+import TaskGroup from './task-group';
 import {getRole} from '../../plugins/utils/acl-utils';
 import {
   getClosestWeekday,
@@ -85,7 +86,7 @@ export default Cacheable('CMS.Models.TaskGroupTask', {
 
     this.bind('created', function (ev, instance) {
       if (instance instanceof that) {
-        if (instance.task_group.reify().selfLink) {
+        if (TaskGroup.findInCacheById(instance.task_group.id).selfLink) {
           instance._refresh_workflow_people();
         }
       }
@@ -100,10 +101,11 @@ export default Cacheable('CMS.Models.TaskGroupTask', {
     this.bind('destroyed', function (ev, instance) {
       let taskGroup;
       if (instance instanceof that) {
-        taskGroup = instance.task_group && instance.task_group.reify();
+        taskGroup = instance.task_group
+          && TaskGroup.findInCacheById(instance.task_group.id);
         if (taskGroup
           && taskGroup.selfLink) {
-          instance.task_group.reify().refresh();
+          taskGroup.refresh();
           instance._refresh_workflow_people();
         }
       }
@@ -130,10 +132,10 @@ export default Cacheable('CMS.Models.TaskGroupTask', {
   _refresh_workflow_people: function () {
     //  TaskGroupTask assignment may add mappings and role assignments in
     //  the backend, so ensure these changes are reflected.
-    let workflow;
-    let taskGroup = this.task_group.reify();
+    const taskGroup = TaskGroup.findInCacheById(this.task_group.id);
+
     if (taskGroup.selfLink) {
-      workflow = taskGroup.workflow.reify();
+      const workflow = Workflow.findInCacheById(taskGroup.workflow.id);
       return workflow.refresh();
     }
   },

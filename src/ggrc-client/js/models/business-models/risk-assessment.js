@@ -8,6 +8,7 @@ import caUpdate from '../mixins/ca-update';
 import timeboxed from '../mixins/timeboxed';
 import baseNotifications from '../mixins/base-notifications';
 import Stub from '../stub';
+import Program from './program';
 
 const path = GGRC.mustache_path + '/risk_assessments';
 
@@ -66,7 +67,7 @@ export default Cacheable('CMS.Models.RiskAssessment', {
   save: function () {
     // Make sure the context is always set to the parent program
     if (!this.context || !this.context.id) {
-      this.attr('context', this.program.reify().context);
+      this.attr('context', Program.findInCacheById(this.program.id).context);
     }
     return this._super(...arguments);
   },

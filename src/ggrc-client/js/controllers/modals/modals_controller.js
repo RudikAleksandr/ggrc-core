@@ -60,6 +60,7 @@ import Assessment from '../../models/business-models/assessment';
 import Stub from '../../models/stub';
 import {getInstance} from '../../plugins/utils/models-utils';
 import {getUrlParams, changeHash} from '../../router';
+import {reify} from '../../plugins/utils/reify-utils';
 
 export default can.Control({
   pluginName: 'ggrc_controllers_modals',
@@ -106,7 +107,7 @@ export default can.Control({
     currentUser = Person.findInCacheById(GGRC.current_user.id);
 
     if (currentUser) {
-      currentUser = currentUser.reify();
+      currentUser = reify(currentUser);
     }
 
     if (!currentUser) {

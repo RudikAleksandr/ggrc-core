@@ -13,6 +13,7 @@ import {
   DEFERRED_MAP_OBJECTS,
 } from '../events/eventTypes';
 import {getPageInstance} from '../plugins/utils/current-page-utils';
+import {reify, isReifiable} from '../plugins/utils/reify-utils';
 
 export default can.Component.extend({
   tag: 'deferred-mapper',
@@ -178,10 +179,10 @@ export default can.Component.extend({
         item.attr('description', snapshotObject.description);
         item.attr('class', snapshotObject.class);
         item.attr('viewLink', snapshotObject.originalLink);
-      } else if (!isSnapshotType(item) && item.reify) {
+      } else if (!isSnapshotType(item) && isReifiable(item)) {
         // add full item object from cache
         // if it isn't snapshot
-        item = item.reify();
+        item = reify(item);
       }
 
       this.attr('list').push(item);

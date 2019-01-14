@@ -28,21 +28,6 @@
         }
       });
     };
-  can.Model.validateContact =
-    can.Map.validateContact = function (attrNames, options) {
-      this.validate(attrNames, options, function (newVal, prop) {
-        let reifiedContact = newVal && newVal.reify ? newVal.reify() : false;
-        let hasEmail = reifiedContact ? reifiedContact.email : false;
-        options = options || {};
-
-        // This check will not work until the bug introduced with commit 8a5f600c65b7b45fd34bf8a7631961a6d5a19638
-        // is resolved.
-        if (!hasEmail) {
-          return options.message ||
-            'No valid contact selected for assignee';
-        }
-      });
-    };
 
   /**
    * Validate an autocomplete list field to be not blank.

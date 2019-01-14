@@ -6,6 +6,7 @@
 import {getPageInstance} from './plugins/utils/current-page-utils';
 import Stub from '../js/models/stub';
 import {getInstance} from '../js/plugins/utils/models-utils';
+import {reify} from '../js/plugins/utils/reify-utils';
 
 let ADMIN_PERMISSION;
 let _CONDITIONS_MAP = {
@@ -26,7 +27,7 @@ let _CONDITIONS_MAP = {
       function (obj, key) {
         let value = obj.attr(key);
         if (value instanceof Stub) {
-          value = value.reify();
+          value = reify(value);
         }
         return value;
       }, instance);
@@ -36,7 +37,7 @@ let _CONDITIONS_MAP = {
     let value = Permission._resolve_permission_variable(args.value);
     let propertyValue = instance[args.property_name];
     if (propertyValue instanceof Stub) {
-      propertyValue = propertyValue.reify();
+      propertyValue = reify(propertyValue);
     }
     return value.indexOf(propertyValue) >= 0;
   },

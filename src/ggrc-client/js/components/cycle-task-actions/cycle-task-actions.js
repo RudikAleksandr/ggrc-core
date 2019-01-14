@@ -12,6 +12,7 @@ import template from './cycle-task-actions.mustache';
 import {updateStatus} from '../../plugins/utils/workflow-utils';
 import Permission from '../../permission';
 import {notifier} from '../../plugins/utils/notifiers-utils';
+import {reify} from '../../plugins/utils/reify-utils';
 
 let viewModel = can.Map.extend({
   define: {
@@ -45,10 +46,16 @@ let viewModel = can.Map.extend({
         let showButtons = Permission.is_allowed_for('update', instance);
 
         if (pageType === 'Workflow') {
-          return showButtons && this.attr('cycle').reify().attr('is_current');
+          return showButtons && reify(this.attr('cycle')).attr('is_current');
         }
 
         return showButtons;
+      },
+    },
+    isAllowedToUpdateWorkflow: {
+      get: function () {
+        const workflow = this.attr('instance.workflow');
+        return Permission.is_allowed_for('update', workflow);
       },
     },
   },

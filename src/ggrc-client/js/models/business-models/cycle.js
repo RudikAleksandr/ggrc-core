@@ -7,11 +7,14 @@ import Cacheable from '../cacheable';
 import Permission from '../../permission';
 import isOverdue from '../mixins/is-overdue';
 import Stub from '../stub';
+import Workflow from './workflow';
 
 function refreshAttr(instance, attr) {
   let result;
-  if (instance.attr(attr).reify().selfLink) {
-    result = instance.attr(attr).reify().refresh();
+  const model = Workflow.findInCacheById(instance.attr(`${attr}.id`));
+
+  if (model.selfLink) {
+    result = model.refresh();
   } else {
     result = $.Deferred().resolve();
   }

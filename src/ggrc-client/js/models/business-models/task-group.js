@@ -4,6 +4,7 @@
  */
 
 import Cacheable from '../cacheable';
+import Person from './person';
 import contactable from '../mixins/contactable';
 import Stub from '../stub';
 
@@ -57,6 +58,21 @@ export default Cacheable('CMS.Models.TaskGroup', {
     this.bind('destroyed', function (ev, inst) {
       if (inst instanceof that) {
         inst.refresh_all_force('workflow', 'context');
+      }
+    });
+  },
+  validateContact: function (attrNames, options) {
+    this.validate(attrNames, options, function (newVal) {
+      let reifiedContact = newVal && newVal instanceof can.Map ?
+        Person.findInCacheById(newVal.id) : false;
+      let hasEmail = reifiedContact ? reifiedContact.email : false;
+      options = options || {};
+
+      // This check will not work until the bug introduced with commit 8a5f600c65b7b45fd34bf8a7631961a6d5a19638
+      // is resolved.
+      if (!hasEmail) {
+        return options.message ||
+          'No valid contact selected for assignee';
       }
     });
   },

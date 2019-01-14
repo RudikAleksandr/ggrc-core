@@ -11,6 +11,7 @@ import caUpdate from '../mixins/ca-update';
 import timeboxed from '../mixins/timeboxed';
 import issueTracker from '../mixins/issue-tracker';
 import Stub from '../stub';
+import Program from './program';
 
 export default Cacheable('CMS.Models.Audit', {
   root_object: 'audit',
@@ -151,10 +152,11 @@ export default Cacheable('CMS.Models.Audit', {
     let _super = this._super;
     let args = arguments;
     if (!this.context || !this.context.id) {
-      return this.program.reify().refresh().then(function (program) {
-        this.attr('context', program.context);
-        return _super.apply(this, args);
-      }.bind(this));
+      return Program.findInCacheById(this.program.id).refresh().
+        then(function (program) {
+          this.attr('context', program.context);
+          return _super.apply(this, args);
+        }.bind(this));
     }
     return _super.apply(this, args);
   },

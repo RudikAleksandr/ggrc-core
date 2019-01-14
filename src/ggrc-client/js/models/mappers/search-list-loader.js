@@ -4,6 +4,7 @@
 */
 
 import Cacheable from '../cacheable';
+import {reify} from '../../plugins/utils/reify-utils';
 
 (function (GGRC, can) {
   /*  SearchListLoader
@@ -110,7 +111,7 @@ import Cacheable from '../cacheable';
       let objectJoinAttr = ('search_' + (this.object_join_attr ||
       binding.instance.constructor.table_plural));
       let mappings = binding.instance[objectJoinAttr] &&
-        binding.instance[objectJoinAttr].reify();
+        reify(binding.instance[objectJoinAttr]);
       let self = this;
       let result;
 
@@ -127,7 +128,7 @@ import Cacheable from '../cacheable';
           });
 
           // binding.instance.attr(object_join_attr, mappings);
-          self.insert_instances_from_mappings(binding, mappings.reify());
+          self.insert_instances_from_mappings(binding, reify(mappings));
           return mappings;
         });
       }

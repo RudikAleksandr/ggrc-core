@@ -190,8 +190,8 @@ In contrast, all of the models referenced by a full-form model are not
 just placeholders, but are true model instances themselves. This
 approach is more analogous to “eager-loading”.
 
-A stub can be converted into a full-form instance by calling ``reify()``
-on the stub. See also ``builder.json``.
+A stub can be converted into a full-form instance by calling ``reify(stub)``
+util placed in ``reify-utils``.
 
 Lifecycle of a Model
 ^^^^^^^^^^^^^^^^^^^^
