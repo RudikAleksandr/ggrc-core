@@ -3,10 +3,10 @@
   Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-<simple-modal 
-  modal-title="title" 
-  state="modalState" 
-  replace-content="true" 
+<simple-modal
+  modal-title="title"
+  state="modalState"
+  replace-content="true"
   extra-css-class="people-group-modal"
   (hide)="cancel"
 >
@@ -53,7 +53,7 @@
           ({items})="people"
           {is-disabled}="isLoading"
           {empty-message}="emptyListMessage">
-            <person-data person="{.}">
+            <person-data {person}="{.}">
               {{#unmapablePerson}}
                 <a href="javascript://"
                   class="people-group-modal__unmap {{#if isDisabled}}disabled{{/if}}"
