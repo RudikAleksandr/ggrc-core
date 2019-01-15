@@ -33,8 +33,8 @@ Copyright (C) 2018 Google Inc.
                                     {is-edit-icon-denied}="isEditIconDenied"
                                     (set-edit-mode-inline)="confirmEdit()">
                                         <h3 class="pane-header__title-name">{{instance.title}}</h3>
-                                        <div class="state-value {{addclass 'state' instance.status}} {{#if instance.verified}}verified{{/if}}">
-                                            {{instance.status}}
+                                        <div class="state-value {{addclass 'state' currentState}} {{#if instance.verified}}verified{{/if}}">
+                                            {{currentState}}
                                         </div>
                                         {{#if instance.archived}}
                                             <span class="state-value state-archived">Archived</span>
@@ -197,6 +197,7 @@ Copyright (C) 2018 Google Inc.
                                         {verifiers}="verifiers"
                                         {instance}="instance"
                                         {disabled}="isInfoPaneSaving"
+                                        {is-undo-button-visible}="isUndoButtonVisible"
                                         (on-state-change)="onStateChange(%event)">
                     </object-state-toolbar>
             {{/unless}}

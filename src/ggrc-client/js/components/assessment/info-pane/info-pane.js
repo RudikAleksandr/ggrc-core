@@ -214,6 +214,8 @@ export default can.Component.extend({
     onStateChangeDfd: {},
     formState: {},
     noItemsText: '',
+    currentState: '',
+    previousStatus: undefined,
     initialState: 'Not Started',
     deprecatedState: 'Deprecated',
     assessmentMainRoles: ['Creators', 'Assignees', 'Verifiers'],
@@ -472,16 +474,16 @@ export default can.Component.extend({
         }.bind(this), 1000));
     },
     onStateChange: function (event) {
-      let isUndo = event.undo;
-      let newStatus = event.state;
-      let instance = this.attr('instance');
-      let initialState = this.attr('initialState');
-      let deprecatedState = this.attr('deprecatedState');
-      let isArchived = instance.attr('archived');
-      let previousStatus = instance.attr('previousStatus') || 'In Progress';
-      let stopFn = tracker.start(instance.type,
+      const isUndo = event.undo;
+      const newStatus = event.state;
+      const instance = this.attr('instance');
+      const initialState = this.attr('initialState');
+      const deprecatedState = this.attr('deprecatedState');
+      const isArchived = instance.attr('archived');
+      const stopFn = tracker.start(instance.type,
         tracker.USER_JOURNEY_KEYS.INFO_PANE,
-        tracker.USER_ACTIONS.ASSESSMENT.CHANGE_STATUS);
+        tracker.USER_ACTIONS.ASSESSMENT.CHANGE_STATUS
+      );
       const resetStatusOnConflict = (object, xhr) => {
         if (xhr && xhr.status === 409 && xhr.remoteObject) {
           instance.attr('status', xhr.remoteObject.status);
@@ -493,27 +495,25 @@ export default can.Component.extend({
       }
 
       this.attr('onStateChangeDfd', $.Deferred());
-
-      if (isUndo) {
-        instance.attr('previousStatus', undefined);
-      } else {
-        instance.attr('previousStatus', instance.attr('status'));
-      }
       this.attr('isUpdatingState', true);
 
       return this.attr('deferredSave').execute(() => {
         if (isUndo) {
-          instance.attr('status', previousStatus);
+          instance.attr('status', this.attr('previousStatus'));
+          this.attr('previousStatus', undefined);
         } else {
+          this.attr('previousStatus', instance.attr('status'));
           instance.attr('status', newStatus);
         }
+      }).then((resp) => {
+        this.attr('isUndoButtonVisible', !isUndo);
+        this.attr('currentState', resp.status);
 
-        if (instance.attr('status') === 'In Review' && !isUndo) {
-          $(document.body).trigger('ajax:flash',
-            {hint: 'The assessment is complete. ' +
-            'The verifier may revert it if further input is needed.'});
+        if (resp.status === 'In Review' && !isUndo) {
+          notifier('info', 'The assessment is complete. ' +
+          'The verifier may revert it if further input is needed.');
         }
-      }).then(() => {
+
         this.attr('onStateChangeDfd').resolve();
         pubsub.dispatch({
           type: 'refetchOnce',
@@ -583,7 +583,6 @@ export default can.Component.extend({
     this.viewModel.initGlobalAttributes();
     this.viewModel.updateRelatedItems();
     this.viewModel.initializeDeferredSave();
-
     this.viewModel.setVerifierRoleId();
   },
   events: {

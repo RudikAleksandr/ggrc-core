@@ -36,6 +36,7 @@ export default can.Component.extend({
       },
     },
     disabled: false,
+    isUndoButtonVisible: false,
     verifiers: [],
     instance: {},
     isActiveState: function () {
@@ -46,9 +47,6 @@ export default can.Component.extend({
     },
     isInReview: function () {
       return this.attr('instance.status') === 'In Review';
-    },
-    hasPreviousState: function () {
-      return !!this.attr('instance.previousStatus');
     },
     changeState: function (newState, isUndo) {
       if (this.attr('instance._hasValidationErrors')) {

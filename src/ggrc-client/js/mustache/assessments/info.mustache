@@ -3,7 +3,7 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 {{#if instance}}
-  <assessment-info-pane {instance}="instance"></assessment-info-pane>
+  <assessment-info-pane {instance}="instance" {current-state}="instance.status"></assessment-info-pane>
   {{#if is_info_widget}}
     <info-pane-footer {created-at}="instance.created_at" {modified-at}="instance.updated_at" {modified-by}="instance.modified_by"></info-pane-footer>
   {{/if}}
