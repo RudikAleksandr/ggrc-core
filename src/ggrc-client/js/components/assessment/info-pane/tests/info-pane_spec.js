@@ -1336,15 +1336,20 @@ describe('assessment-info-pane component', () => {
       });
     });
 
-    it('returns status back on undo action', (done) => {
-      vm.attr('instance.previousStatus', 'FooBar');
+    it('set status from response in currentState', (done) => {
+      vm.attr('currentState', 'FooBar');
       instanceSave.resolve();
+
+      spyOn(vm.attr('deferredSave'), 'execute').and.
+        returnValue($.Deferred().resolve(
+          {status: 'newStatus'}
+        ));
 
       method({
         undo: true,
         status: 'newStatus',
       }).then(() => {
-        expect(vm.attr('instance.status')).toBe('FooBar');
+        expect(vm.attr('currentState')).toBe('newStatus');
         done();
       });
     });
